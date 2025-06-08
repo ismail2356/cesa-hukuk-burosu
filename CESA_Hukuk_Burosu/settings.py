@@ -35,7 +35,13 @@ RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 if RENDER_EXTERNAL_HOSTNAME:
     ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
     
-ALLOWED_HOSTS.extend(['localhost', '127.0.0.1', 'cesahukukdanismanlik.com', 'www.cesahukukdanismanlik.com', 'cesa-hukuk-burosu.onrender.com'])
+ALLOWED_HOSTS.extend([
+    'localhost', 
+    '127.0.0.1', 
+    'cesahukukdanismanlik.com', 
+    'www.cesahukukdanismanlik.com', 
+    'cesa-hukuk-burosu.onrender.com'
+])
 
 
 # Application definition
@@ -204,8 +210,8 @@ if DEBUG:
 else:
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
-DEFAULT_FROM_EMAIL = 'info@cesahukuk.com'
-CONTACT_EMAIL = 'iletisim@cesahukuk.com'
+DEFAULT_FROM_EMAIL = 'info@cesahukukdanismanlik.com'
+CONTACT_EMAIL = 'iletisim@cesahukukdanismanlik.com'
 
 # Güvenlik ayarları
 if not DEBUG:
