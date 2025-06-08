@@ -97,3 +97,12 @@ class Lawyer(models.Model):
     
     def full_name_with_title(self):
         return f"{self.title} {self.first_name} {self.last_name}"
+
+    def get_photo_url(self):
+        """Fotoğraf URL'ini döndür, yoksa default avatar"""
+        if self.photo and hasattr(self.photo, 'url'):
+            try:
+                return self.photo.url
+            except:
+                return None
+        return None

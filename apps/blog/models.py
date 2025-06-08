@@ -111,22 +111,3 @@ class Article(models.Model):
 
     def get_absolute_url(self):
         return reverse('blog:article_detail', kwargs={'slug': self.slug})
-
-
-class Comment(models.Model):
-    """Makale yorumu modeli"""
-    article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='comments', verbose_name='Makale')
-    name = models.CharField('Ad Soyad', max_length=100)
-    email = models.EmailField('E-posta')
-    content = models.TextField('Yorum')
-    is_approved = models.BooleanField('Onaylı', default=False)
-    created_at = models.DateTimeField('Oluşturulma Tarihi', auto_now_add=True)
-    updated_at = models.DateTimeField('Güncellenme Tarihi', auto_now=True)
-
-    class Meta:
-        verbose_name = 'Yorum'
-        verbose_name_plural = 'Yorumlar'
-        ordering = ['-created_at']
-
-    def __str__(self):
-        return f"{self.name} - {self.article.title}"

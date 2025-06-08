@@ -32,8 +32,8 @@
                 <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:1|stringformat:"d" }}00">
                     <div class="card h-100 lawyer-card">
                         <div class="card-body text-center">
-                            {% if lawyer.photo %}
-                                <img src="{{ lawyer.photo.url }}" alt="{{ lawyer.full_name_with_title }}" class="rounded-circle lawyer-photo mb-3" style="width: 180px; height: 180px; object-fit: cover;">
+                            {% if lawyer.get_photo_url %}
+                                <img src="{{ lawyer.get_photo_url }}" alt="{{ lawyer.full_name_with_title }}" class="rounded-circle lawyer-photo mb-3" style="width: 180px; height: 180px; object-fit: cover;">
                             {% else %}
                                 <div class="rounded-circle lawyer-photo mb-3 bg-light d-flex align-items-center justify-content-center" style="width: 180px; height: 180px; margin: 0 auto;">
                                     <i class="fas fa-user fa-4x text-muted"></i>

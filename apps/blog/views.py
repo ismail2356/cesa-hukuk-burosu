@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.db.models import Q
 from django.utils import timezone
 from django.core.paginator import Paginator
-from .models import Category, Tag, Article, Comment
+from .models import Category, Tag, Article
 
 
 def article_list(request):
@@ -87,13 +87,9 @@ def article_detail(request, slug):
         published_at__isnull=False
     ).exclude(id=article.id).order_by('-published_at')[:4]
     
-    # Onaylanmış yorumlar
-    comments = article.comments.filter(is_approved=True).order_by('-created_at')
-    
     context = {
         'article': article,
         'related_articles': related_articles,
-        'comments': comments,
     }
     return render(request, 'blog/article_detail.html', context)
 
@@ -186,9 +182,6 @@ class ArticleDetailView(DetailView):
             status='published'
         ).exclude(id=self.object.id)[:4]
         
-        # Onaylı yorumları ekle
-        context['comments'] = self.object.comments.filter(is_approved=True)
-        
         return context
 
 
@@ -251,25 +244,3 @@ class SearchArticleListView(ListView):
         context = super().get_context_data(**kwargs)
         context['query'] = self.request.GET.get('q', '')
         return context
-
-
-class CommentCreateView(View):
-    """Yorum ekleme görünümü"""
-    def post(self, request, slug):
-        article = get_object_or_404(Article, slug=slug, status='published')
-        name = request.POST.get('name')
-        email = request.POST.get('email')
-        content = request.POST.get('content')
-        
-        if name and email and content:
-            Comment.objects.create(
-                article=article,
-                name=name,
-                email=email,
-                content=content
-            )
-            messages.success(request, 'Yorumunuz başarıyla gönderildi. Onaylandıktan sonra yayınlanacaktır.')
-        else:
-            messages.error(request, 'Lütfen tüm alanları doldurun.')
-        
-        return redirect('blog:article_detail', slug=slug)
