@@ -42,7 +42,7 @@ def home_view(request):
 
 class HomeView(TemplateView):
     """Ana sayfa görünümü"""
-    template_name = "pages/home_simple.html"  # Geçici olarak basit template
+    template_name = "pages/home.html"  # Orijinal güzel template'e geri dön
 
 
 class PageDetailView(DetailView):
