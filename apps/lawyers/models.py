@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.text import slugify
 from django.core.exceptions import ValidationError
 import os
+import uuid
 
 
 def validate_image_size(image):
@@ -12,8 +13,11 @@ def validate_image_size(image):
 
 def lawyer_photo_upload(instance, filename):
     """Avukat fotoğrafları için upload path"""
-    ext = filename.split('.')[-1]
-    filename = f"{instance.first_name}_{instance.last_name}.{ext}"
+    ext = filename.split('.')[-1].lower()
+    if instance.first_name and instance.last_name:
+        filename = f"{instance.first_name}_{instance.last_name}.{ext}"
+    else:
+        filename = f"lawyer_{uuid.uuid4().hex[:8]}.{ext}"
     return f'lawyers/{filename}'
 
 
@@ -47,23 +51,22 @@ class Lawyer(models.Model):
         ('F', 'Kadın'),
     )
     
-    title = models.CharField('Unvan', max_length=50, help_text='Örn: Av., Dr., Prof. Dr.')
+    title = models.CharField('Unvan', max_length=50, default='Av.', help_text='Örn: Av., Dr., Prof. Dr.')
     first_name = models.CharField('Ad', max_length=100)
     last_name = models.CharField('Soyad', max_length=100)
-    slug = models.SlugField('URL', max_length=200, unique=True, blank=True)
+    slug = models.SlugField('URL', max_length=200, unique=True, blank=True, default='temp-slug')
     gender = models.CharField('Cinsiyet', max_length=1, choices=GENDER_CHOICES)
     photo = models.ImageField(
         'Fotoğraf', 
         upload_to=lawyer_photo_upload, 
         blank=True, 
         null=True,
-        validators=[validate_image_size],
         help_text='JPG, PNG formatında, maksimum 5MB'
     )
     short_bio = models.TextField('Kısa Biyografi', max_length=200, blank=True, null=True, help_text='Maksimum 200 karakter')
     email = models.EmailField('E-posta', blank=True, null=True)
     phone = models.CharField('Telefon', max_length=20, blank=True, null=True)
-    position = models.CharField('Pozisyon', max_length=100, help_text='Örn: Kurucu Ortak, Kıdemli Avukat, Stajyer Avukat')
+    position = models.CharField('Pozisyon', max_length=100, default='Avukat', help_text='Örn: Kurucu Ortak, Kıdemli Avukat, Stajyer Avukat')
     specializations = models.ManyToManyField(Specialization, verbose_name='Uzmanlık Alanları', blank=True)
     education = models.TextField('Eğitim', blank=True, null=True)
     experience = models.TextField('Deneyim', blank=True, null=True)
@@ -85,7 +88,7 @@ class Lawyer(models.Model):
         return f"{self.title} {self.first_name} {self.last_name}"
     
     def save(self, *args, **kwargs):
-        if not self.slug:
+        if not self.slug or self.slug == 'temp-slug':
             self.slug = slugify(f"{self.first_name}-{self.last_name}")
         super().save(*args, **kwargs)
     
