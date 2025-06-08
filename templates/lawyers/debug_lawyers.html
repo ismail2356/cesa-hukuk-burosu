@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Avukat Debug</title>
+</head>
+<body>
+    <h1>Avukat Debug Sayfası</h1>
+    
+    {% for lawyer in lawyers %}
+        <div style="border: 1px solid #ccc; margin: 20px; padding: 20px;">
+            <h3>{{ lawyer.full_name_with_title }}</h3>
+            <p><strong>Foto field:</strong> {{ lawyer.photo }}</p>
+            <p><strong>Foto var mı:</strong> {% if lawyer.photo %}EVET{% else %}HAYIR{% endif %}</p>
+            {% if lawyer.photo %}
+                <p><strong>Foto URL:</strong> {{ lawyer.photo.url }}</p>
+                <p><strong>Tam URL:</strong> http://127.0.0.1:8001{{ lawyer.photo.url }}</p>
+                <img src="{{ lawyer.photo.url }}" style="max-width: 200px;" alt="Test">
+            {% endif %}
+        </div>
+    {% empty %}
+        <p>Hiç avukat bulunamadı!</p>
+    {% endfor %}
+</body>
+</html> 

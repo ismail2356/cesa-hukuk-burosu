@@ -2,20 +2,16 @@ from django.db import models
 from django.utils.text import slugify
 from django.contrib.auth.models import User
 from django.utils import timezone
-from django.core.exceptions import ValidationError
-import os
-
-
-def validate_article_image_size(image):
-    """Makale resim boyutunu kontrol et (10MB limit)"""
-    if image.size > 10 * 1024 * 1024:  # 10MB
-        raise ValidationError('Resim boyutu 10MB\'dan küçük olmalıdır.')
+import uuid
 
 
 def article_image_upload(instance, filename):
     """Makale resimleri için upload path"""
     ext = filename.split('.')[-1].lower()
-    filename = f"{slugify(instance.title)}.{ext}"
+    if instance.title:
+        filename = f"{slugify(instance.title)}.{ext}"
+    else:
+        filename = f"article_{uuid.uuid4().hex[:8]}.{ext}"
     return f'articles/{filename}'
 
 
@@ -72,7 +68,7 @@ class Article(models.Model):
     )
     
     title = models.CharField('Başlık', max_length=200, help_text='Makalenin başlığını yazın')
-    slug = models.SlugField('URL', max_length=220, unique=True, blank=True, help_text='Otomatik oluşturulur')
+    slug = models.SlugField('URL', max_length=220, unique=True, blank=True, default='temp-slug')
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='articles', verbose_name='Yazar', blank=True, null=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='articles', verbose_name='Kategori')
     tags = models.ManyToManyField(Tag, related_name='articles', verbose_name='Etiketler', blank=True)
@@ -81,10 +77,9 @@ class Article(models.Model):
         upload_to=article_image_upload, 
         blank=True, 
         null=True,
-        validators=[validate_article_image_size],
-        help_text='JPG, PNG formatında, maksimum 10MB. Önerilen boyut: 1200x630px'
+        help_text='JPG, PNG formatında'
     )
-    summary = models.TextField('Özet', max_length=300, blank=True, null=True, help_text='Makalenin kısa özeti (SEO için önemli)')
+    summary = models.TextField('Özet', max_length=300, blank=True, null=True, help_text='Makalenin kısa özeti')
     content = models.TextField('İçerik', help_text='Makalenin tam içeriği')
     status = models.CharField('Durum', max_length=10, choices=STATUS_CHOICES, default='draft')
     featured = models.BooleanField('Öne Çıkan', default=False, help_text='Ana sayfada öne çıkarılsın mı?')
@@ -96,13 +91,13 @@ class Article(models.Model):
     class Meta:
         verbose_name = 'Makale'
         verbose_name_plural = 'Makaleler'
-        ordering = ['-published_at', '-created_at']
+        ordering = ['-created_at']
 
     def __str__(self):
         return self.title
     
     def save(self, *args, **kwargs):
-        if not self.slug:
+        if not self.slug or self.slug == 'temp-slug':
             self.slug = slugify(self.title)
         
         # Status published olduğunda published_at otomatik ayarla

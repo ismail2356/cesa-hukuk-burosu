@@ -3,6 +3,24 @@ from django.views.generic import ListView, DetailView
 from .models import Lawyer
 
 
+def lawyer_list(request):
+    """Avukatlar listesi görünümü"""
+    lawyers = Lawyer.objects.filter(is_active=True)
+    return render(request, 'lawyers/lawyer_list.html', {'lawyers': lawyers})
+
+
+def lawyer_detail(request, slug):
+    """Avukat detay görünümü"""
+    lawyer = get_object_or_404(Lawyer, slug=slug, is_active=True)
+    return render(request, 'lawyers/lawyer_detail.html', {'lawyer': lawyer})
+
+
+def debug_lawyers(request):
+    """Debug görünümü"""
+    lawyers = Lawyer.objects.all()
+    return render(request, 'lawyers/debug_lawyers.html', {'lawyers': lawyers})
+
+
 class LawyerListView(ListView):
     """Avukatlar listesi görünümü"""
     model = Lawyer

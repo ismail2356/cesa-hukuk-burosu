@@ -1,4 +1,6 @@
 from django.contrib import admin
+from django.utils.html import format_html
+from django.contrib import messages
 from .models import Lawyer, Specialization
 
 
@@ -26,8 +28,6 @@ class LawyerAdmin(admin.ModelAdmin):
     )
     
     def save_model(self, request, obj, form, change):
-        if not obj.slug:
-            obj.slug = f"{obj.first_name.lower()}-{obj.last_name.lower()}"
         super().save_model(request, obj, form, change)
 
     def get_queryset(self, request):
