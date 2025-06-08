@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.text import slugify
 from django.contrib.auth.models import User
+from django.utils import timezone
 from tinymce.models import HTMLField
 
 
@@ -82,6 +83,13 @@ class Article(models.Model):
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.title)
+        
+        # Status published olduğunda published_at otomatik ayarla
+        if self.status == 'published' and not self.published_at:
+            self.published_at = timezone.now()
+        elif self.status == 'draft':
+            self.published_at = None
+            
         super().save(*args, **kwargs)
 
 

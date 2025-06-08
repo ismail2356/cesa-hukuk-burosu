@@ -2,6 +2,29 @@ from django.db import models
 from django.utils.text import slugify
 
 
+class Specialization(models.Model):
+    """Uzmanlık alanı modeli"""
+    name = models.CharField('Uzmanlık Alanı', max_length=100)
+    slug = models.SlugField('URL', max_length=120, unique=True, blank=True)
+    description = models.TextField('Açıklama', blank=True, null=True)
+    is_active = models.BooleanField('Aktif', default=True)
+    created_at = models.DateTimeField('Oluşturulma Tarihi', auto_now_add=True)
+    updated_at = models.DateTimeField('Güncellenme Tarihi', auto_now=True)
+
+    class Meta:
+        verbose_name = 'Uzmanlık Alanı'
+        verbose_name_plural = 'Uzmanlık Alanları'
+        ordering = ['name']
+
+    def __str__(self):
+        return self.name
+    
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+
+
 class Lawyer(models.Model):
     """Avukat modeli"""
     GENDER_CHOICES = (
@@ -15,12 +38,14 @@ class Lawyer(models.Model):
     slug = models.SlugField('URL', max_length=200, unique=True, blank=True)
     gender = models.CharField('Cinsiyet', max_length=1, choices=GENDER_CHOICES)
     photo = models.ImageField('Fotoğraf', upload_to='lawyers/', blank=True, null=True)
+    short_bio = models.TextField('Kısa Biyografi', max_length=200, blank=True, null=True)
     email = models.EmailField('E-posta', blank=True, null=True)
     phone = models.CharField('Telefon', max_length=20, blank=True, null=True)
     position = models.CharField('Pozisyon', max_length=100, help_text='Örn: Kurucu Ortak, Kıdemli Avukat, Stajyer Avukat')
+    specializations = models.ManyToManyField(Specialization, verbose_name='Uzmanlık Alanları', blank=True)
     education = models.TextField('Eğitim', blank=True, null=True)
     experience = models.TextField('Deneyim', blank=True, null=True)
-    expertise_areas = models.TextField('Uzmanlık Alanları', blank=True, null=True)
+    expertise_areas = models.TextField('Diğer Uzmanlık Alanları', blank=True, null=True, help_text='Yukarıdaki uzmanlık alanlarına ek olarak')
     languages = models.CharField('Yabancı Diller', max_length=200, blank=True, null=True)
     linkedin = models.URLField('LinkedIn', blank=True, null=True)
     twitter = models.URLField('Twitter', blank=True, null=True)
