@@ -1,5 +1,20 @@
 from django.db import models
 from django.utils.text import slugify
+from django.core.exceptions import ValidationError
+import os
+
+
+def validate_image_size(image):
+    """Resim boyutunu kontrol et (5MB limit)"""
+    if image.size > 5 * 1024 * 1024:  # 5MB
+        raise ValidationError('Resim boyutu 5MB\'dan küçük olmalıdır.')
+
+
+def lawyer_photo_upload(instance, filename):
+    """Avukat fotoğrafları için upload path"""
+    ext = filename.split('.')[-1]
+    filename = f"{instance.first_name}_{instance.last_name}.{ext}"
+    return f'lawyers/{filename}'
 
 
 class Specialization(models.Model):
@@ -37,8 +52,15 @@ class Lawyer(models.Model):
     last_name = models.CharField('Soyad', max_length=100)
     slug = models.SlugField('URL', max_length=200, unique=True, blank=True)
     gender = models.CharField('Cinsiyet', max_length=1, choices=GENDER_CHOICES)
-    photo = models.ImageField('Fotoğraf', upload_to='lawyers/', blank=True, null=True)
-    short_bio = models.TextField('Kısa Biyografi', max_length=200, blank=True, null=True)
+    photo = models.ImageField(
+        'Fotoğraf', 
+        upload_to=lawyer_photo_upload, 
+        blank=True, 
+        null=True,
+        validators=[validate_image_size],
+        help_text='JPG, PNG formatında, maksimum 5MB'
+    )
+    short_bio = models.TextField('Kısa Biyografi', max_length=200, blank=True, null=True, help_text='Maksimum 200 karakter')
     email = models.EmailField('E-posta', blank=True, null=True)
     phone = models.CharField('Telefon', max_length=20, blank=True, null=True)
     position = models.CharField('Pozisyon', max_length=100, help_text='Örn: Kurucu Ortak, Kıdemli Avukat, Stajyer Avukat')
@@ -49,7 +71,7 @@ class Lawyer(models.Model):
     languages = models.CharField('Yabancı Diller', max_length=200, blank=True, null=True)
     linkedin = models.URLField('LinkedIn', blank=True, null=True)
     twitter = models.URLField('Twitter', blank=True, null=True)
-    order = models.PositiveIntegerField('Sıralama', default=0, help_text='Avukatların görüntülenme sırası')
+    order = models.PositiveIntegerField('Sıralama', default=0, help_text='Avukatların görüntülenme sırası (0=en üstte)')
     is_active = models.BooleanField('Aktif', default=True)
     created_at = models.DateTimeField('Oluşturulma Tarihi', auto_now_add=True)
     updated_at = models.DateTimeField('Güncellenme Tarihi', auto_now=True)
