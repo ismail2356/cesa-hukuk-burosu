@@ -1,125 +1,72 @@
 {% extends 'base.html' %}
-{% load static %}
 
 {% block title %}Avukatlarımız - CESA Hukuk Bürosu{% endblock %}
 
 {% block content %}
-<!-- Hero Section -->
-<section class="bg-primary text-white py-5">
-    <div class="container py-4">
-        <div class="row justify-content-center">
-            <div class="col-lg-8 text-center">
-                <h1 class="fw-bold mb-3" data-aos="fade-up">Uzman Avukat Kadromuz</h1>
-                <p class="lead mb-0" data-aos="fade-up" data-aos-delay="100">
-                    Hukuki ihtiyaçlarınız için alanında uzman ve deneyimli avukatlarımızla hizmetinizdeyiz
-                </p>
+<!-- Page Header -->
+<section class="hero py-4 py-md-5 bg-primary text-white">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-8" data-aos="fade-right">
+                <h1 class="display-5 fw-bold mb-3">Avukatlarımız</h1>
+                <p class="lead mb-0">Alanında uzman, deneyimli ve güvenilir hukuki destek.</p>
+            </div>
+            <div class="col-md-4 text-md-end" data-aos="fade-left">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'core:home' %}" class="text-white-50">Ana Sayfa</a></li>
+                        <li class="breadcrumb-item active text-white" aria-current="page">Avukatlarımız</li>
+                    </ol>
+                </nav>
             </div>
         </div>
     </div>
 </section>
 
-    <!-- Breadcrumb -->
-<div class="bg-light py-2">
-    <div class="container">
-    <nav aria-label="breadcrumb">
-            <ol class="breadcrumb mb-0 py-2">
-                <li class="breadcrumb-item"><a href="{% url 'core:home' %}" class="text-decoration-none">Ana Sayfa</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Avukatlarımız</li>
-        </ol>
-    </nav>
-    </div>
-</div>
-    
-<!-- Avukat Listesi -->
+<!-- Lawyers Section -->
 <section class="py-5">
-    <div class="container py-4">
-    <div class="row mb-5">
-            <div class="col-12 text-center" data-aos="fade-up">
-                <div class="section-title">
-                    <h2 class="fw-bold mb-4">Alanında Uzman Avukatlarımız</h2>
-                    <p class="lead text-muted mx-auto" style="max-width: 700px;">
-                        CESA Hukuk Bürosu olarak, alanında uzman ve deneyimli avukatlarımızla müvekkillerimize en iyi hukuki danışmanlık ve temsil hizmetini sunmaktayız.
-                    </p>
-            </div>
-        </div>
-    </div>
-
-    <div class="row g-4">
-        {% for lawyer in lawyers %}
-            <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter|add:"100" }}">
-                <div class="card h-100 border-0">
-                <div class="text-center p-4">
-                    {% if lawyer.photo %}
-                        <img src="{{ lawyer.photo.url }}" alt="{{ lawyer.full_name_with_title }}" class="rounded-circle lawyer-photo mb-3" style="width: 180px; height: 180px; object-fit: cover;">
-                    {% else %}
-                        <img src="{% static 'img/default-lawyer.png' %}" alt="{{ lawyer.full_name_with_title }}" class="rounded-circle lawyer-photo mb-3" style="width: 180px; height: 180px; object-fit: cover;">
-                    {% endif %}
+    <div class="container">
+        {% if lawyers %}
+            <div class="row g-4">
+                {% for lawyer in lawyers %}
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:1|stringformat:"d" }}00">
+                    <div class="card h-100 lawyer-card">
+                        <div class="card-body text-center">
+                            {% if lawyer.photo %}
+                                <img src="{{ lawyer.photo.url }}" alt="{{ lawyer.full_name_with_title }}" class="rounded-circle lawyer-photo mb-3" style="width: 180px; height: 180px; object-fit: cover;">
+                            {% else %}
+                                <div class="rounded-circle lawyer-photo mb-3 bg-light d-flex align-items-center justify-content-center" style="width: 180px; height: 180px; margin: 0 auto;">
+                                    <i class="fas fa-user fa-4x text-muted"></i>
+                                </div>
+                            {% endif %}
+                            <h5 class="card-title text-primary">{{ lawyer.full_name_with_title }}</h5>
+                            {% if lawyer.specializations.exists %}
+                                <div class="mb-3">
+                                    {% for specialization in lawyer.specializations.all %}
+                                        <span class="badge bg-secondary me-1 mb-1">{{ specialization.name }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            {% if lawyer.short_bio %}
+                                <p class="card-text text-muted mb-3">{{ lawyer.short_bio|truncatewords:20 }}</p>
+                            {% endif %}
+                            <a href="{% url 'lawyers:lawyer_detail' lawyer.slug %}" class="btn btn-outline-primary">Detay Görüntüle</a>
+                        </div>
+                    </div>
                 </div>
-                <div class="card-body text-center">
-                        <h3 class="card-title h4 mb-2">{{ lawyer.full_name_with_title }}</h3>
-                        <p class="text-secondary fw-bold mb-3">{{ lawyer.position }}</p>
-                        <hr class="my-3 opacity-25">
-                    {% if lawyer.expertise_areas %}
-                        <p class="card-text text-muted mb-4">{{ lawyer.expertise_areas|truncatewords:10 }}</p>
-                    {% endif %}
-                    
-                    <div class="mt-3">
-                        {% if lawyer.email %}
-                        <a href="mailto:{{ lawyer.email }}" class="btn btn-sm btn-outline-primary me-2" data-bs-toggle="tooltip" title="E-posta Gönder">
-                            <i class="fas fa-envelope"></i>
-                        </a>
-                        {% endif %}
-                        
-                        {% if lawyer.phone %}
-                        <a href="tel:{{ lawyer.phone }}" class="btn btn-sm btn-outline-primary me-2" data-bs-toggle="tooltip" title="Telefon Et">
-                            <i class="fas fa-phone"></i>
-                        </a>
-                        {% endif %}
-                        
-                        <a href="{% url 'lawyers:lawyer_detail' lawyer.slug %}" class="btn btn-primary">
-                            <i class="fas fa-user me-2"></i>Profili İncele
-                        </a>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="row">
+                <div class="col-12 text-center">
+                    <div class="py-5">
+                        <i class="fas fa-users fa-4x text-muted mb-4"></i>
+                        <h3 class="text-muted">Henüz avukat eklenmemiş</h3>
+                        <p class="text-muted">Yakında ekip üyelerimizi burada görebileceksiniz.</p>
                     </div>
                 </div>
             </div>
-        </div>
-        {% empty %}
-            <div class="col-12" data-aos="fade-up">
-            <div class="alert alert-info text-center py-5">
-                <i class="fas fa-info-circle fa-3x mb-3"></i>
-                <p class="mb-0">Henüz avukat bilgisi eklenmemiştir.</p>
-            </div>
-        </div>
-        {% endfor %}
-    </div>
+        {% endif %}
     </div>
 </section>
-    
-    <!-- İletişim CTA -->
-<section class="py-5 bg-primary text-white">
-    <div class="container py-5 text-center">
-        <div class="row justify-content-center">
-            <div class="col-lg-8" data-aos="fade-up">
-                <h2 class="fw-bold mb-4">Hukuki Danışmanlık İçin Bizimle İletişime Geçin</h2>
-                <p class="lead mb-5">Alanında uzman avukatlarımız, hukuki sorunlarınız için size en iyi çözümleri sunmak için hazır.</p>
-                <a href="{% url 'contact:contact' %}" class="btn btn-secondary btn-lg">
-                        <i class="fas fa-envelope me-2"></i>İletişime Geçin
-                    </a>
-            </div>
-        </div>
-    </div>
-</section>
-
-<style>
-    .lawyer-photo {
-        transition: transform 0.3s ease;
-        border: 5px solid #f8f9fa;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    }
-    
-    .card:hover .lawyer-photo {
-        transform: scale(1.05);
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-    }
-</style>
 {% endblock %} 

@@ -1,166 +1,113 @@
 {% extends 'base.html' %}
-{% load static %}
 
 {% block title %}{{ lawyer.full_name_with_title }} - CESA Hukuk Bürosu{% endblock %}
 
 {% block content %}
-<div class="container py-5">
-    <!-- Breadcrumb -->
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{% url 'core:home' %}">Ana Sayfa</a></li>
-            <li class="breadcrumb-item"><a href="{% url 'lawyers:lawyer_list' %}">Avukatlarımız</a></li>
-            <li class="breadcrumb-item active" aria-current="page">{{ lawyer.full_name_with_title }}</li>
-        </ol>
-    </nav>
-    
-    <div class="row">
-        <div class="col-lg-4 mb-4">
-            <div class="card border-0 shadow">
-                <div class="text-center p-4">
-                    {% if lawyer.photo %}
-                    <img src="{{ lawyer.photo.url }}" alt="{{ lawyer.full_name_with_title }}" class="img-fluid rounded-circle lawyer-photo" style="width: 250px; height: 250px; object-fit: cover; border: 5px solid #f8f9fa; box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);">
-                    {% else %}
-                    <img src="{% static 'img/default-lawyer.png' %}" alt="{{ lawyer.full_name_with_title }}" class="img-fluid rounded-circle lawyer-photo" style="width: 250px; height: 250px; object-fit: cover; border: 5px solid #f8f9fa; box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);">
-                    {% endif %}
-                </div>
-                <div class="card-body text-center">
-                    <h1 class="card-title h3">{{ lawyer.full_name_with_title }}</h1>
-                    <p class="card-text text-primary fw-bold">{{ lawyer.position }}</p>
-                    
-                    {% if lawyer.email or lawyer.phone %}
-                    <hr>
-                    <div class="contact-info my-3">
-                        {% if lawyer.email %}
-                        <div class="d-flex align-items-center justify-content-center mb-2">
-                            <div class="flex-shrink-0">
-                                <i class="fas fa-envelope text-primary me-3"></i>
-                            </div>
-                            <div class="flex-grow-1 text-start">
-                                <a href="mailto:{{ lawyer.email }}" class="text-decoration-none">{{ lawyer.email }}</a>
-                            </div>
-                        </div>
-                        {% endif %}
-                        
-                        {% if lawyer.phone %}
-                        <div class="d-flex align-items-center justify-content-center">
-                            <div class="flex-shrink-0">
-                                <i class="fas fa-phone text-primary me-3"></i>
-                            </div>
-                            <div class="flex-grow-1 text-start">
-                                <a href="tel:{{ lawyer.phone }}" class="text-decoration-none">{{ lawyer.phone }}</a>
-                            </div>
-                        </div>
-                        {% endif %}
+<!-- Lawyer Profile Header -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row">
+            <!-- Lawyer Photo & Basic Info -->
+            <div class="col-lg-4 text-center mb-4 mb-lg-0" data-aos="fade-right">
+                {% if lawyer.photo %}
+                    <img src="{{ lawyer.photo.url }}" alt="{{ lawyer.full_name_with_title }}" class="img-fluid rounded-circle lawyer-photo" style="width: 250px; height: 250px; object-fit: cover; border: 5px solid #fff; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);">
+                {% else %}
+                    <div class="rounded-circle lawyer-photo bg-white d-flex align-items-center justify-content-center mx-auto" style="width: 250px; height: 250px; border: 5px solid #fff; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);">
+                        <i class="fas fa-user fa-5x text-muted"></i>
                     </div>
+                {% endif %}
+                
+                <h1 class="h3 fw-bold mt-3 mb-2 text-primary">{{ lawyer.full_name_with_title }}</h1>
+                {% if lawyer.position %}
+                    <p class="text-secondary fw-bold mb-3">{{ lawyer.position }}</p>
+                {% endif %}
+                
+                <!-- Contact Info -->
+                <div class="mt-4">
+                    {% if lawyer.email %}
+                    <a href="mailto:{{ lawyer.email }}" class="btn btn-outline-primary btn-sm me-2 mb-2">
+                        <i class="fas fa-envelope me-1"></i> E-posta
+                    </a>
                     {% endif %}
-                    
-                    <div class="d-grid gap-2 mt-4">
-                        <a href="{% url 'contact:contact' %}" class="btn btn-primary">
-                            <i class="fas fa-envelope me-2"></i>İletişime Geç
-                        </a>
-                    </div>
+                    {% if lawyer.phone %}
+                    <a href="tel:{{ lawyer.phone }}" class="btn btn-outline-primary btn-sm mb-2">
+                        <i class="fas fa-phone me-1"></i> Ara
+                    </a>
+                    {% endif %}
                 </div>
             </div>
             
-            <div class="mt-4">
-                <a href="{% url 'lawyers:lawyer_list' %}" class="btn btn-outline-secondary w-100">
-                    <i class="fas fa-arrow-left me-2"></i>Tüm Avukatlar
-                </a>
+            <!-- Lawyer Details -->
+            <div class="col-lg-8" data-aos="fade-left">
+                <!-- Breadcrumb -->
+                <nav aria-label="breadcrumb" class="mb-4">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'core:home' %}">Ana Sayfa</a></li>
+                        <li class="breadcrumb-item"><a href="{% url 'lawyers:lawyer_list' %}">Avukatlarımız</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">{{ lawyer.full_name_with_title }}</li>
+                    </ol>
+                </nav>
+                
+                <!-- Specializations -->
+                {% if lawyer.specializations.exists %}
+                <div class="mb-4">
+                    <h5 class="fw-bold text-primary mb-3">Uzmanlık Alanları</h5>
+                    <div>
+                        {% for specialization in lawyer.specializations.all %}
+                            <span class="badge bg-secondary me-2 mb-2">{{ specialization.name }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+                
+                <!-- Short Bio -->
+                {% if lawyer.short_bio %}
+                <div class="mb-4">
+                    <h5 class="fw-bold text-primary mb-3">Kısa Özgeçmiş</h5>
+                    <p class="lead text-muted">{{ lawyer.short_bio }}</p>
+                </div>
+                {% endif %}
+                
+                <!-- Expertise Areas -->
+                {% if lawyer.expertise_areas %}
+                <div class="mb-4">
+                    <h5 class="fw-bold text-primary mb-3">Deneyim Alanları</h5>
+                    <p class="text-muted">{{ lawyer.expertise_areas|linebreaks }}</p>
+                </div>
+                {% endif %}
             </div>
         </div>
-        
-        <div class="col-lg-8">
-            {% if lawyer.expertise_areas %}
-            <div class="card mb-4 shadow">
-                <div class="card-header bg-primary text-white">
-                    <h3 class="h5 mb-0">
-                        <i class="fas fa-balance-scale me-2"></i>Uzmanlık Alanları
-                    </h3>
-                </div>
-                <div class="card-body">
-                    <div class="expertise-areas">
-                        {{ lawyer.expertise_areas|linebreaks }}
-                    </div>
-                </div>
-            </div>
-            {% endif %}
-            
-            {% if lawyer.education %}
-            <div class="card mb-4 shadow">
-                <div class="card-header bg-primary text-white">
-                    <h3 class="h5 mb-0">
-                        <i class="fas fa-graduation-cap me-2"></i>Eğitim
-                    </h3>
-                </div>
-                <div class="card-body">
-                    <div class="education">
-                        {{ lawyer.education|linebreaks }}
-                    </div>
-                </div>
-            </div>
-            {% endif %}
-            
-            {% if lawyer.experience %}
-            <div class="card mb-4 shadow">
-                <div class="card-header bg-primary text-white">
-                    <h3 class="h5 mb-0">
-                        <i class="fas fa-briefcase me-2"></i>Deneyim
-                    </h3>
-                </div>
-                <div class="card-body">
-                    <div class="experience">
-                        {{ lawyer.experience|linebreaks }}
-                    </div>
-                </div>
-            </div>
-            {% endif %}
-            
-            {% if lawyer.languages %}
-            <div class="card mb-4 shadow">
-                <div class="card-header bg-primary text-white">
-                    <h3 class="h5 mb-0">
-                        <i class="fas fa-language me-2"></i>Yabancı Diller
-                    </h3>
-                </div>
-                <div class="card-body">
-                    <div class="languages">
-                        {{ lawyer.languages }}
-                    </div>
-                </div>
-            </div>
-            {% endif %}
-            
-            <!-- İletişim CTA -->
-            <div class="card bg-light">
-                <div class="card-body p-4">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-shrink-0">
-                            <i class="fas fa-envelope fa-3x text-primary me-4"></i>
-                        </div>
-                        <div class="flex-grow-1">
-                            <h4>Hukuki Danışmanlık İçin</h4>
-                            <p class="mb-0">{{ lawyer.full_name_with_title }} ile iletişime geçmek için aşağıdaki butona tıklayabilirsiniz.</p>
-                        </div>
-                    </div>
-                    <div class="text-end mt-3">
-                        <a href="{% url 'contact:contact' %}" class="btn btn-primary">
-                            <i class="fas fa-envelope me-2"></i>İletişime Geç
-                        </a>
-                    </div>
+    </div>
+</section>
+
+<!-- Detailed Bio -->
+{% if lawyer.bio %}
+<section class="py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10" data-aos="fade-up">
+                <h3 class="fw-bold text-primary text-center mb-5">Detaylı Özgeçmiş</h3>
+                <div class="content">
+                    {{ lawyer.bio|linebreaks }}
                 </div>
             </div>
         </div>
     </div>
-</div>
+</section>
+{% endif %}
 
-<style>
-    .expertise-areas p, .education p, .experience p, .languages p {
-        margin-bottom: 0.5rem;
-    }
-    
-    .expertise-areas p:last-child, .education p:last-child, .experience p:last-child, .languages p:last-child {
-        margin-bottom: 0;
-    }
-</style>
+<!-- Contact CTA -->
+<section class="py-5 bg-primary text-white">
+    <div class="container text-center">
+        <div class="row justify-content-center">
+            <div class="col-lg-8" data-aos="fade-up">
+                <h3 class="fw-bold mb-4">Hukuki Danışmanlık İçin İletişime Geçin</h3>
+                <p class="lead mb-4">{{ lawyer.full_name_with_title }} ile hukuki konularınız hakkında görüşmek için bizimle iletişime geçebilirsiniz.</p>
+                <a href="{% url 'contact:contact' %}" class="btn btn-secondary btn-lg">
+                    <i class="fas fa-envelope me-2"></i>İletişime Geçin
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
 {% endblock %} 

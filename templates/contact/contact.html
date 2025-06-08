@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-{% load static %}
 {% load crispy_forms_tags %}
 
 {% block title %}İletişim - CESA Hukuk Bürosu{% endblock %}
@@ -153,8 +152,23 @@
 </div>
 <!-- Çağrı Merkezi Bitiş -->
 
-{% endblock %}
-
-{% block extra_js %}
-<script src="{% static 'js/form-validation.js' %}"></script>
+<!-- Form JavaScript -->
+<script>
+// Form validation
+(function() {
+    'use strict';
+    window.addEventListener('load', function() {
+        var forms = document.getElementsByClassName('needs-validation');
+        var validation = Array.prototype.filter.call(forms, function(form) {
+            form.addEventListener('submit', function(event) {
+                if (form.checkValidity() === false) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        });
+    }, false);
+})();
+</script>
 {% endblock %} 
