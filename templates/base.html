@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-{% load static %}
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
@@ -43,7 +42,6 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{% block twitter_title %}{{ block.super }}{% endblock %}">
     <meta name="twitter:description" content="{% block twitter_description %}{{ block.super }}{% endblock %}">
-    <meta name="twitter:image" content="{% block twitter_image %}{{ block.super }}{% endblock %}">
     
     <!-- Favicon ve Dokunmatik İkonlar -->
     <link rel="icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon">
@@ -52,73 +50,6 @@
     <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/favicon-32x32.png' %}">
     <link rel="icon" type="image/png" sizes="16x16" href="{% static 'img/favicon-16x16.png' %}">
     <link rel="manifest" href="{% static 'site.webmanifest' %}">
-    
-    <!-- Yerel İşletme Schema Markup -->
-    {% block schema_markup %}
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "LegalService",
-      "name": "CESA Hukuk Bürosu",
-      "url": "https://cesahukukdanismanlik.com",
-      "logo": "https://cesahukukdanismanlik.com{% static 'img/logo.png' %}",
-      "image": "https://cesahukukdanismanlik.com{% static 'img/office.jpg' %}",
-      "description": "CESA Hukuk Bürosu, alanında uzman avukat kadrosuyla müvekkillerine geniş kapsamlı hukuki danışmanlık hizmetleri sunan profesyonel bir hukuk bürosudur.",
-      "telephone": "+902125554433",
-      "email": "info@cesahukukdanismanlik.com",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "Atatürk Bulvarı No:123",
-        "addressLocality": "İstanbul",
-        "addressRegion": "Bakırköy",
-        "postalCode": "34000",
-        "addressCountry": "TR"
-      },
-      "geo": {
-        "@type": "GeoCoordinates",
-        "latitude": "40.9712",
-        "longitude": "28.8093"
-      },
-      "openingHours": "Mo-Fr 09:00-18:00",
-      "priceRange": "₺₺",
-      "sameAs": [
-        "https://www.facebook.com/cesahukuk",
-        "https://www.instagram.com/cesahukuk",
-        "https://www.linkedin.com/company/cesahukuk"
-      ],
-      "hasOfferCatalog": {
-        "@type": "OfferCatalog",
-        "name": "Hukuki Hizmetler",
-        "itemListElement": [
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "İcra ve İflas Hukuku",
-              "description": "İcra takibi, iflas, haciz ve borç yapılandırma konularında hukuki danışmanlık"
-            }
-          },
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Aile Hukuku",
-              "description": "Boşanma, nafaka, velayet ve mal paylaşımı konularında hukuki danışmanlık"
-            }
-          },
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Ticaret Hukuku",
-              "description": "Şirket kuruluşu, ticari sözleşmeler ve uyuşmazlık çözümü konularında hukuki danışmanlık"
-            }
-          }
-        ]
-      }
-    }
-    </script>
-    {% endblock %}
     
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
