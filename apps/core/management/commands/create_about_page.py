@@ -11,31 +11,55 @@ class Command(BaseCommand):
                 title='Hakkımızda',
                 slug='hakkimizda',
                 content="""
-                <h2>CESA Hukuk Bürosu Hakkında</h2>
-                
-                <p>CESA Hukuk Bürosu, 15 yıllık deneyime sahip uzman kadrosuyla müvekkillerine kapsamlı hukuki danışmanlık ve dava hizmetleri sunmaktadır.</p>
-                
-                <p>Kurulduğumuz günden bu yana, adalete ve hukukun üstünlüğüne olan inancımızla, müvekkillerimizin hukuki süreçlerinde en iyi sonuçları elde etmek için çalışmaktayız. Büromuz, alanında uzmanlaşmış avukatlardan oluşan ekibiyle, her türlü hukuki sorununuzda yanınızda olmayı taahhüt etmektedir.</p>
-                
-                <h3>Misyonumuz</h3>
-                
-                <p>Müvekkillerimizin hukuki ihtiyaçlarına en hızlı ve etkili çözümleri sunmak, hukuki haklarını en iyi şekilde savunmak ve onlara güven verici bir hukuk hizmeti sağlamaktır.</p>
-                
-                <h3>Vizyonumuz</h3>
-                
-                <p>Türkiye'nin önde gelen hukuk bürolarından biri olarak, müvekkillerimize uluslararası standartlarda hukuk hizmeti sunmak ve hukuk alanında öncü çalışmalara imza atmaktır.</p>
-                
-                <h3>Değerlerimiz</h3>
-                
-                <ul>
-                    <li>Profesyonellik</li>
-                    <li>Güvenilirlik</li>
-                    <li>Şeffaflık</li>
-                    <li>Dürüstlük</li>
-                    <li>Müvekkil odaklılık</li>
-                </ul>
-                
-                <p>CESA Hukuk Bürosu olarak, her müvekkilimizin davası bizim için önemlidir. Sizlere en iyi hizmeti sunmak için buradayız.</p>
+                <div class="mb-4">
+                    <p class="lead text-primary fw-semibold">CESA Hukuk Bürosu, 15 yıllık deneyime sahip uzman kadrosuyla müvekkillerine kapsamlı hukuki danışmanlık ve dava hizmetleri sunmaktadır.</p>
+                </div>
+
+                <p>Kurulduğumuz günden bu yana, <strong>adalete ve hukukun üstünlüğüne olan inancımızla</strong>, müvekkillerimizin hukuki süreçlerinde en iyi sonuçları elde etmek için çalışmaktayız. Büromuz, alanında uzmanlaşmış avukatlardan oluşan ekibiyle, her türlü hukuki sorununuzda yanınızda olmayı taahhüt etmektedir.</p>
+
+                <div class="row mt-4 mb-4">
+                    <div class="col-md-6">
+                        <div class="bg-light rounded p-3 h-100">
+                            <h5 class="text-primary"><i class="fas fa-users me-2"></i>Deneyimli Kadro</h5>
+                            <p class="mb-0 small">15+ yıl deneyime sahip uzman avukatlar</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mt-3 mt-md-0">
+                        <div class="bg-light rounded p-3 h-100">
+                            <h5 class="text-primary"><i class="fas fa-balance-scale me-2"></i>Geniş Hizmet Yelpazesi</h5>
+                            <p class="mb-0 small">Hukukun her alanında profesyonel hizmet</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h4 class="text-primary mt-4 mb-3">Hizmet Alanlarımız</h4>
+                <p>CESA Hukuk Bürosu olarak aşağıdaki hukuk alanlarında uzman hizmet vermekteyiz:</p>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><i class="fas fa-check text-primary me-2"></i><strong>Ceza Hukuku</strong></li>
+                            <li class="mb-2"><i class="fas fa-check text-primary me-2"></i><strong>Ticaret Hukuku</strong></li>
+                            <li class="mb-2"><i class="fas fa-check text-primary me-2"></i><strong>İş ve Sosyal Güvenlik Hukuku</strong></li>
+                            <li class="mb-2"><i class="fas fa-check text-primary me-2"></i><strong>Aile Hukuku</strong></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><i class="fas fa-check text-primary me-2"></i><strong>Gayrimenkul ve İnşaat Hukuku</strong></li>
+                            <li class="mb-2"><i class="fas fa-check text-primary me-2"></i><strong>Miras Hukuku</strong></li>
+                            <li class="mb-2"><i class="fas fa-check text-primary me-2"></i><strong>Vergi Hukuku</strong></li>
+                            <li class="mb-2"><i class="fas fa-check text-primary me-2"></i><strong>Yabancılar Hukuku</strong></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="alert alert-primary mt-4" role="alert">
+                    <h5 class="alert-heading"><i class="fas fa-lightbulb me-2"></i>Yaklaşımımız</h5>
+                    <p class="mb-0">Hukukun evrensel ilkelerine bağlı kalarak, teknolojik gelişmeleri ve toplumsal dönüşümleri sürekli takip ediyor; her dosyamızda yüksek sorumluluk bilinciyle hareket ediyoruz. Amacımız, yalnızca anlaşmazlıkları çözmek değil, aynı zamanda hukuki riskleri önceden tespit edip önleyici çözümler geliştirmektir.</p>
+                </div>
+
+                <p class="mt-4"><strong>CESA Hukuk Bürosu</strong> olarak, her müvekkilimizin davası bizim için önemlidir. Sizlere en iyi hizmeti sunmak için buradayız.</p>
                 """,
                 meta_title='CESA Hukuk Bürosu | Hakkımızda',
                 meta_description='CESA Hukuk Bürosu, 15 yıllık deneyimiyle müvekkillerine kapsamlı hukuki danışmanlık ve dava hizmetleri sunmaktadır. Profesyonel ekibimizle yanınızdayız.',
