@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Ofislerimiz - CESA Hukuk Bürosu{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h1 class="text-center mb-4">Ofislerimiz</h1>
+            <div class="text-center mb-5">
+                <p class="lead">CESA Hukuk Bürosu olarak, farklı lokasyonlarda hizmet vermekteyiz.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        {% for location in office_locations %}
+        <div class="col-lg-6 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-header {% if location.is_main %}bg-primary text-white{% endif %}">
+                    <h3 class="h5 mb-0">{{ location.name }} {% if location.is_main %}<span class="badge bg-light text-dark ms-2">Ana Ofis</span>{% endif %}</h3>
+                </div>
+                <div class="card-body">
+                    <p><i class="fas fa-map-marker-alt me-2 text-primary"></i> <strong>Adres:</strong><br> {{ location.address|linebreaksbr }}</p>
+                    <p><i class="fas fa-phone me-2 text-primary"></i> <strong>Telefon:</strong> {{ location.phone }}</p>
+                    {% if location.email %}
+                    <p><i class="fas fa-envelope me-2 text-primary"></i> <strong>E-posta:</strong> {{ location.email }}</p>
+                    {% endif %}
+                    
+                    {% if location.google_maps_link %}
+                    <div class="mt-3">
+                        <a href="{{ location.google_maps_link }}" target="_blank" class="btn btn-outline-primary">
+                            <i class="fas fa-map me-2"></i> Haritada Görüntüle
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+                {% if location.google_maps_embed %}
+                <div class="card-footer p-0">
+                    <div class="embed-responsive">
+                        {{ location.google_maps_embed|safe }}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12 text-center py-5">
+            <p>Henüz ofis bilgisi eklenmemiştir.</p>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-12 text-center">
+            <a href="{% url 'contact:contact' %}" class="btn btn-primary">
+                <i class="fas fa-envelope me-2"></i> İletişim Formu
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %} 

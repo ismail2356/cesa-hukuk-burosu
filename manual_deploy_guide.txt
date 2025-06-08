@@ -1,0 +1,110 @@
+================================
+CESA HUKUK BÜROSU - RENDER MANUEL DEPLOY KILAVUZU
+================================
+
+Merhaba! Bu kılavuz, CESA Hukuk Bürosu web sitesini Render platformuna manuel olarak deploy etmek için adım adım talimatları içerir.
+
+==================
+1. ÖN HAZIRLIK
+==================
+
+- Tüm dosyalarınızın güncel olduğundan emin olun
+- build.sh, requirements.txt, Procfile, runtime.txt ve createsu.py dosyalarının projenin kök dizininde olduğundan emin olun
+- settings.py dosyasında Render için gerekli düzenlemelerin yapıldığından emin olun
+
+==================
+2. RENDER HESABI OLUŞTURMA
+==================
+
+1. https://render.com adresine gidin
+2. GitHub veya e-posta hesabınızla kayıt olun/giriş yapın
+3. Dashboard'a eriştiğinizden emin olun
+
+==================
+3. POSTGRESQL VERİTABANI OLUŞTURMA
+==================
+
+1. Render Dashboard'da sol menüden "New +" düğmesine tıklayın
+2. "PostgreSQL" seçeneğini seçin
+3. Aşağıdaki bilgileri girin:
+   - Name: cesa-db
+   - Database: cesa_hukuk
+   - User: cesa_user
+   - Region: Frankfurt (EU Central)
+   - PostgreSQL Version: 15
+   - Plan: Free
+4. "Create Database" düğmesine tıklayın
+5. Veritabanı oluşturulduktan sonra "Connect" bölümünde görülen "Internal Database URL"i not alın
+   - Bu URL genellikle şu formattadır: postgres://cesa_user:password@db-name.internal:5432/cesa_hukuk
+
+==================
+4. WEB SERVİSİ OLUŞTURMA
+==================
+
+1. Render Dashboard'da sol menüden "New +" düğmesine tıklayın
+2. "Web Service" seçeneğini seçin
+3. Deployment metodu olarak "Upload Files" seçeneğini seçin
+4. Proje dosyalarınızı zip olarak sıkıştırın (cesa_hukuk_render.zip) ve bu dosyayı yükleyin
+5. Aşağıdaki bilgileri girin:
+   - Name: cesa-hukuk
+   - Environment: Python
+   - Region: Frankfurt (EU Central)
+   - Branch: main
+   - Build Command: ./build.sh
+   - Start Command: gunicorn CESA_Hukuk_Burosu.asgi:application -k uvicorn.workers.UvicornWorker
+   - Plan: Free
+
+6. "Environment Variables" bölümüne aşağıdaki değişkenleri ekleyin:
+   - DATABASE_URL: [Adım 3'te not aldığınız iç veritabanı URL'sini girin]
+   - SECRET_KEY: django-insecure-[rastgele-karakter-dizisi] (örn: django-insecure-a1b2c3d4e5f6g7h8i9j0)
+   - DEBUG: false
+   - ADMIN_USERNAME: admin
+   - ADMIN_EMAIL: admin@cesahukuk.com
+   - ADMIN_PASSWORD: [güçlü bir şifre belirleyin]
+   - PORT: 10000
+
+7. "Create Web Service" düğmesine tıklayın
+
+==================
+5. DEPLOYMENT DURUMUNU KONTROL ETME
+==================
+
+1. Web servisiniz oluşturulduktan sonra otomatik olarak dağıtım başlayacaktır
+2. "Logs" sekmesinden dağıtım sürecini takip edebilirsiniz
+3. Yapı başarılı bir şekilde tamamlandığında, web siteniz Render tarafından verilen bir URL'de erişilebilir olacaktır
+   (örn: https://cesa-hukuk.onrender.com)
+
+==================
+6. CUSTOM DOMAIN AYARLAMA (İSTEĞE BAĞLI)
+==================
+
+1. Web servisinizin sayfasında "Settings" sekmesine gidin
+2. "Custom Domain" bölümüne kaydırın
+3. "Add Custom Domain" düğmesine tıklayın
+4. Alan adınızı girin (örn: cesahukuk.com)
+5. Render size DNS ayarlarını nasıl yapılandıracağınızı gösteren talimatlar verecektir
+6. Alan adı sağlayıcınızın (Wix) yönetim paneline gidin ve gerekli DNS kayıtlarını ekleyin:
+   - Bir CNAME kaydı ekleyin: www -> cesa-hukuk.onrender.com
+   - Veya bir A kaydı ekleyin: @ -> Render'ın verdiği IP adresi
+
+==================
+7. TEST ETME
+==================
+
+1. Dağıtım tamamlandıktan sonra, Render tarafından verilen URL'yi ziyaret edin
+2. Web sitenizin düzgün çalıştığından emin olun
+3. Admin paneline giriş yaparak içeriği yönetebilirsiniz:
+   - URL: https://[your-render-url]/admin
+   - Kullanıcı adı: admin
+   - Şifre: [Adım 4'te belirlediğiniz ADMIN_PASSWORD değeri]
+
+==================
+SORUN GİDERME
+==================
+
+- Dağıtım başarısız olursa, "Logs" sekmesinden hata mesajlarını kontrol edin
+- Veritabanı bağlantı sorunları için DATABASE_URL değişkeninin doğru olduğundan emin olun
+- Static dosya sorunları için collectstatic komutunun build.sh içinde düzgün çalıştığından emin olun
+- Yardıma ihtiyacınız olursa, Render Dokümantasyonuna bakın: https://render.com/docs
+
+İyi çalışmalar! 

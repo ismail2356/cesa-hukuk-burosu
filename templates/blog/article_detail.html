@@ -1,0 +1,225 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ article.title }} - CESA Hukuk Bürosu{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'core:home' %}">Ana Sayfa</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'blog:article_list' %}">Makaleler</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'blog:category_article_list' article.category.slug %}">{{ article.category.name }}</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ article.title }}</li>
+        </ol>
+    </nav>
+
+    <div class="row">
+        <!-- Ana İçerik -->
+        <div class="col-lg-8">
+            <article>
+                <!-- Makale Başlık ve Meta Bilgileri -->
+                <header class="mb-4">
+                    <h1 class="mb-3">{{ article.title }}</h1>
+                    <div class="d-flex flex-wrap align-items-center text-muted mb-3">
+                        <div class="me-4">
+                            <i class="fas fa-user-circle me-1"></i> {{ article.author.get_full_name|default:article.author.username }}
+                        </div>
+                        <div class="me-4">
+                            <i class="fas fa-calendar-alt me-1"></i> {{ article.published_at|date:"d.m.Y" }}
+                        </div>
+                        <div class="me-4">
+                            <i class="fas fa-folder me-1"></i> 
+                            <a href="{% url 'blog:category_article_list' article.category.slug %}" class="text-decoration-none">
+                                {{ article.category.name }}
+                            </a>
+                        </div>
+                        <div>
+                            <i class="fas fa-eye me-1"></i> {{ article.view_count }} görüntülenme
+                        </div>
+                    </div>
+                    
+                    {% if article.summary %}
+                    <div class="card mb-4 bg-light">
+                        <div class="card-body">
+                            <p class="lead mb-0">{{ article.summary }}</p>
+                        </div>
+                    </div>
+                    {% endif %}
+                </header>
+
+                <!-- Makale Görseli -->
+                {% if article.image %}
+                <figure class="mb-4">
+                    <img class="img-fluid rounded" src="{{ article.image.url }}" alt="{{ article.title }}">
+                </figure>
+                {% endif %}
+
+                <!-- Makale İçeriği -->
+                <section class="mb-5 article-content">
+                    {{ article.content|safe }}
+                </section>
+                
+                <!-- Etiketler -->
+                {% if article.tags.all %}
+                <div class="mb-4">
+                    <h5>Etiketler:</h5>
+                    <div class="d-flex flex-wrap gap-2">
+                        {% for tag in article.tags.all %}
+                        <a href="{% url 'blog:tag_article_list' tag.slug %}" class="badge bg-light text-dark text-decoration-none">
+                            <i class="fas fa-tag me-1 small"></i>{{ tag.name }}
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Yorumlar -->
+                <div class="mb-5">
+                    <h3 class="mb-4">Yorumlar ({{ comments.count }})</h3>
+                    
+                    {% if comments %}
+                    <div class="mb-4">
+                        {% for comment in comments %}
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ comment.name }}</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">{{ comment.created_at|date:"d.m.Y H:i" }}</h6>
+                                <p class="card-text">{{ comment.content }}</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <div class="alert alert-info mb-4">
+                        Bu makaleye henüz yorum yapılmamış. İlk yorumu siz yapın!
+                    </div>
+                    {% endif %}
+                    
+                    <!-- Yorum Formu -->
+                    <div class="card">
+                        <div class="card-header bg-primary text-white">
+                            <h4 class="mb-0 h5">Yorum Yap</h4>
+                        </div>
+                        <div class="card-body">
+                            <form action="{% url 'blog:comment_create' article.slug %}" method="post">
+                                {% csrf_token %}
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Ad Soyad *</label>
+                                    <input type="text" class="form-control" id="name" name="name" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">E-posta *</label>
+                                    <input type="email" class="form-control" id="email" name="email" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="content" class="form-label">Yorumunuz *</label>
+                                    <textarea class="form-control" id="content" name="content" rows="4" required></textarea>
+                                </div>
+                                <div class="alert alert-warning small">
+                                    <i class="fas fa-info-circle me-2"></i> Yorumunuz onaylandıktan sonra yayınlanacaktır.
+                                </div>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-paper-plane me-2"></i> Yorum Gönder
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+
+        <!-- Yan Menü -->
+        <div class="col-lg-4">
+            <!-- Yazar Bilgisi -->
+            <div class="card mb-4 shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="h5 mb-0">Yazar</h3>
+                </div>
+                <div class="card-body">
+                    <h4 class="card-title h6">{{ article.author.get_full_name|default:article.author.username }}</h4>
+                    <p class="card-text small">
+                        {{ article.author.profile.bio|default:"Yazar hakkında bilgi bulunmamaktadır." }}
+                    </p>
+                    <a href="#" class="btn btn-sm btn-outline-primary">Yazarın Diğer Makaleleri</a>
+                </div>
+            </div>
+
+            <!-- İlgili Makaleler -->
+            {% if related_articles %}
+            <div class="card mb-4 shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="h5 mb-0">İlgili Makaleler</h3>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled">
+                        {% for related in related_articles %}
+                        <li class="mb-3">
+                            <div class="d-flex">
+                                {% if related.image %}
+                                <div class="flex-shrink-0 me-3">
+                                    <img src="{{ related.image.url }}" alt="{{ related.title }}" class="img-fluid rounded" style="width: 60px; height: 60px; object-fit: cover;">
+                                </div>
+                                {% endif %}
+                                <div>
+                                    <h6 class="mb-1">
+                                        <a href="{% url 'blog:article_detail' related.slug %}" class="text-decoration-none">
+                                            {{ related.title }}
+                                        </a>
+                                    </h6>
+                                    <p class="small text-muted mb-0">
+                                        <i class="fas fa-calendar-alt me-1"></i> {{ related.published_at|date:"d.m.Y" }}
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Kategoriler -->
+            <div class="card mb-4 shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="h5 mb-0">Kategoriler</h3>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        {% for category in categories %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <a href="{% url 'blog:category_article_list' category.slug %}" class="text-decoration-none">
+                                {{ category.name }}
+                            </a>
+                            <span class="badge bg-primary rounded-pill">
+                                {{ category.articles.count }}
+                            </span>
+                        </li>
+                        {% empty %}
+                        <li class="list-group-item">Henüz kategori bulunmamaktadır.</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Etiketler -->
+            <div class="card mb-4 shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="h5 mb-0">Etiketler</h3>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex flex-wrap gap-2">
+                        {% for tag in tags %}
+                        <a href="{% url 'blog:tag_article_list' tag.slug %}" class="badge bg-light text-dark text-decoration-none">
+                            <i class="fas fa-tag me-1 small"></i>{{ tag.name }}
+                        </a>
+                        {% empty %}
+                        <p class="mb-0">Henüz etiket bulunmamaktadır.</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

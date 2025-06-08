@@ -1,0 +1,390 @@
+/**
+ * CESA Hukuk Bürosu - Responsive CSS
+ * Bu dosya, projenin responsive görünümü için gerekli düzeltmeleri içerir.
+ */
+
+/* Navbar için fixed-top ayarları */
+.navbar.fixed-top {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 1030;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.navbar.scrolled {
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
+    background-color: rgba(255, 255, 255, 0.98) !important;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Mobil menü açılırken düzgün görüntülenmesi için */
+.navbar-collapse {
+    max-height: calc(100vh - 76px);
+    overflow-y: auto;
+}
+
+@media (max-width: 992px) {
+    .navbar-collapse {
+        background-color: white;
+        padding: 15px;
+        border-radius: 0 0 10px 10px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        position: absolute;
+        top: 66px;
+        left: 0;
+        right: 0;
+        z-index: 1029;
+    }
+}
+
+/* Ana içerik için üst padding - fixed navbar için önemli */
+body {
+    padding-top: 80px; /* Navbar yüksekliği + biraz extra boşluk */
+}
+
+/* Sayfa header/breadcrumb düzenlemesi */
+.page-header {
+    padding-top: 30px !important;
+}
+
+@media (max-width: 992px) {
+    body {
+        padding-top: 70px; /* Mobil navbar yüksekliği + biraz extra boşluk */
+    }
+    
+    .page-header {
+        padding-top: 20px !important;
+    }
+}
+
+/* Extra small devices (phones, 576px and down) */
+@media (max-width: 576px) {
+    /* Header */
+    .navbar-brand {
+        font-size: 1.2rem;
+    }
+    
+    /* Hero Section */
+    .container-fluid.page-header h1 {
+        font-size: 2rem !important;
+    }
+    
+    /* General Spacing */
+    .py-5 {
+        padding-top: 2rem !important;
+        padding-bottom: 2rem !important;
+    }
+    
+    .mb-5 {
+        margin-bottom: 2rem !important;
+    }
+    
+    .display-5 {
+        font-size: 1.8rem !important;
+    }
+    
+    .display-3 {
+        font-size: 2.2rem !important;
+    }
+    
+    /* İletişim Sayfası */
+    .btn-square {
+        width: 45px !important;
+        height: 45px !important;
+    }
+    
+    /* Form Buttons */
+    .btn-primary.py-3 {
+        padding-top: 0.75rem !important;
+        padding-bottom: 0.75rem !important;
+    }
+    
+    /* Animate Delays */
+    [data-wow-delay] {
+        animation-delay: 0.1s !important;
+    }
+    
+    /* Navbar için mobil iyileştirmeler */
+    .navbar-nav .nav-link {
+        padding: 12px 15px !important;
+        margin: 0 !important;
+        border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+    
+    .navbar-collapse {
+        padding-top: 10px;
+    }
+    
+    /* Card'lar için mobil düzenlemeler */
+    .card {
+        margin-bottom: 20px;
+    }
+    
+    /* Dokunmatik hedefler için büyütme */
+    .nav-link, .btn, a {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+    }
+    
+    /* Mobil için footer düzenlemeleri */
+    footer h5 {
+        margin-top: 20px;
+    }
+    
+    /* Yardımcı sınıflar */
+    .mobile-text-center {
+        text-align: center !important;
+    }
+    
+    .mobile-d-block {
+        display: block !important;
+        width: 100%;
+    }
+    
+    /* WhatsApp sabit butonu */
+    .whatsapp-float {
+        position: fixed;
+        width: 50px;
+        height: 50px;
+        bottom: 70px;
+        right: 20px;
+        background-color: #25d366;
+        color: #FFF;
+        border-radius: 50px;
+        text-align: center;
+        font-size: 24px;
+        box-shadow: 2px 2px 3px rgba(0,0,0,0.2);
+        z-index: 100;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+/* Small devices (landscape phones, 576px to 768px) */
+@media (min-width: 576px) and (max-width: 768px) {
+    /* Header */
+    .navbar-brand {
+        font-size: 1.4rem;
+    }
+    
+    /* Hero Section */
+    .container-fluid.page-header h1 {
+        font-size: 2.5rem !important;
+    }
+    
+    /* Button Sizes */
+    .btn-lg-square {
+        width: 50px !important;
+        height: 50px !important;
+    }
+    
+    /* Tüm butonları daha tıklanabilir yapma */
+    .btn {
+        padding: 0.5rem 1rem;
+    }
+    
+    /* Dokunmatik hedefler için iyileştirme */
+    .nav-link {
+        padding: 10px 15px !important;
+    }
+}
+
+/* Medium devices (tablets, 768px to 992px) */
+@media (min-width: 768px) and (max-width: 992px) {
+    /* Responsive Image Containment */
+    .img-fluid {
+        max-width: 100%;
+        height: auto;
+    }
+    
+    /* Fix for form elements spacing */
+    .row.g-5 > [class*="col-"] {
+        padding-right: 10px;
+        padding-left: 10px;
+    }
+    
+    /* Tablet için grid düzenlemeleri */
+    .col-md-6 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+}
+
+/* Large devices (desktops, 992px to 1200px) */
+@media (min-width: 992px) and (max-width: 1200px) {
+    /* General fine tuning */
+    .container {
+        max-width: 960px;
+    }
+}
+
+/* General Responsive Classes */
+.img-fluid {
+    max-width: 100%;
+    height: auto;
+}
+
+.text-break {
+    word-wrap: break-word !important;
+    word-break: break-word !important;
+}
+
+/* Fix for tables on mobile */
+.table-responsive {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Utility classes for responsive text */
+.fs-smaller {
+    font-size: 90% !important;
+}
+
+/* Tüm cihazlar için genel dokunmatik iyileştirmeler */
+a, button, .btn, .nav-link, input[type="button"], input[type="submit"] {
+    transition: all 0.2s ease;
+}
+
+a:active, button:active, .btn:active {
+    transform: scale(0.98);
+}
+
+@media (max-width: 576px) {
+    .mobile-center {
+        text-align: center !important;
+    }
+    
+    .mobile-hidden {
+        display: none !important;
+    }
+    
+    .mobile-mt-3 {
+        margin-top: 1rem !important;
+    }
+    
+    .mobile-mb-3 {
+        margin-bottom: 1rem !important;
+    }
+    
+    /* Daha iyi okunabilirlik için font boyutu artışı */
+    body {
+        font-size: 16px !important;
+    }
+    
+    /* Form elemanları için iyileştirmeler */
+    input, select, textarea {
+        font-size: 16px !important; /* iOS'ta zoom sorununu önler */
+        padding: 12px !important;
+    }
+    
+    /* Mobil için daha büyük yatay alan */
+    .container {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+}
+
+/* Responsive utility for WOW animations */
+@media (max-width: 768px) {
+    .wow {
+        animation-name: none !important;
+        visibility: visible !important;
+    }
+}
+
+/* Button optimizations for mobile */
+@media (max-width: 576px) {
+    .btn {
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+/* Fix for specific elements */
+#back-to-top {
+    width: 40px;
+    height: 40px;
+    right: 20px;
+    bottom: 20px;
+}
+
+@media (max-width: 576px) {
+    #back-to-top {
+        width: 40px;
+        height: 40px;
+        padding: 8px;
+    }
+}
+
+/* Hızlı arama/telefon erişimi için sabit buton */
+.quick-contact {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 999;
+}
+
+.quick-contact a {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    font-size: 24px;
+    text-decoration: none;
+}
+
+/* Mobilde sticky footer navbar */
+@media (max-width: 768px) {
+    .mobile-navbar {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: white;
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+        display: flex;
+        justify-content: space-around;
+        padding: 10px 0;
+        z-index: 1000;
+    }
+    
+    .mobile-navbar a {
+        color: var(--dark-color);
+        text-align: center;
+        font-size: 12px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .mobile-navbar a i {
+        font-size: 20px;
+        margin-bottom: 2px;
+    }
+    
+    .mobile-navbar a.active {
+        color: var(--primary-color);
+    }
+    
+    /* Mobile navbar için alt padding */
+    body {
+        padding-bottom: 60px;
+    }
+} 

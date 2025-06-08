@@ -1,0 +1,49 @@
+from django.db import models
+from django.utils.text import slugify
+
+
+class Lawyer(models.Model):
+    """Avukat modeli"""
+    GENDER_CHOICES = (
+        ('M', 'Erkek'),
+        ('F', 'Kadın'),
+    )
+    
+    title = models.CharField('Unvan', max_length=50, help_text='Örn: Av., Dr., Prof. Dr.')
+    first_name = models.CharField('Ad', max_length=100)
+    last_name = models.CharField('Soyad', max_length=100)
+    slug = models.SlugField('URL', max_length=200, unique=True, blank=True)
+    gender = models.CharField('Cinsiyet', max_length=1, choices=GENDER_CHOICES)
+    photo = models.ImageField('Fotoğraf', upload_to='lawyers/', blank=True, null=True)
+    email = models.EmailField('E-posta', blank=True, null=True)
+    phone = models.CharField('Telefon', max_length=20, blank=True, null=True)
+    position = models.CharField('Pozisyon', max_length=100, help_text='Örn: Kurucu Ortak, Kıdemli Avukat, Stajyer Avukat')
+    education = models.TextField('Eğitim', blank=True, null=True)
+    experience = models.TextField('Deneyim', blank=True, null=True)
+    expertise_areas = models.TextField('Uzmanlık Alanları', blank=True, null=True)
+    languages = models.CharField('Yabancı Diller', max_length=200, blank=True, null=True)
+    linkedin = models.URLField('LinkedIn', blank=True, null=True)
+    twitter = models.URLField('Twitter', blank=True, null=True)
+    order = models.PositiveIntegerField('Sıralama', default=0, help_text='Avukatların görüntülenme sırası')
+    is_active = models.BooleanField('Aktif', default=True)
+    created_at = models.DateTimeField('Oluşturulma Tarihi', auto_now_add=True)
+    updated_at = models.DateTimeField('Güncellenme Tarihi', auto_now=True)
+
+    class Meta:
+        verbose_name = 'Avukat'
+        verbose_name_plural = 'Avukatlar'
+        ordering = ['order', 'last_name']
+
+    def __str__(self):
+        return f"{self.title} {self.first_name} {self.last_name}"
+    
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(f"{self.first_name}-{self.last_name}")
+        super().save(*args, **kwargs)
+    
+    def full_name(self):
+        return f"{self.first_name} {self.last_name}"
+    
+    def full_name_with_title(self):
+        return f"{self.title} {self.first_name} {self.last_name}"

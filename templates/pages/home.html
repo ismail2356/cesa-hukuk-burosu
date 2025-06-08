@@ -1,0 +1,210 @@
+{% extends 'base.html' %}
+
+{% block title %}CESA Hukuk Bürosu - Ana Sayfa{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero bg-primary text-white py-4 py-md-5">
+    <div class="container-fluid px-3 px-md-4 py-4 py-md-5">
+        <div class="row align-items-center">
+            <div class="col-lg-5 mb-4 mb-lg-0" data-aos="fade-right" data-aos-duration="800">
+                <h1 class="display-4 display-md-3 fw-bold mb-3 mb-md-4">Hukuki Çözüm Ortağınız</h1>
+                <p class="lead mb-4 fs-6 fs-md-5">Hukukun evrensel ilkelerine bağlı kalarak, teknolojik gelişmeleri ve toplumsal dönüşümleri sürekli takip ediyor; her dosyamızda yüksek sorumluluk bilinciyle hareket ediyoruz.</p>
+                <div class="mt-4 mt-md-5 d-flex flex-wrap">
+                    <a href="{% url 'core:page_detail' slug='hakkimizda' %}" class="btn btn-secondary btn-lg me-2 me-sm-3 mb-2 mb-sm-0">
+                        <i class="fas fa-info-circle me-2"></i>Hakkımızda
+                    </a>
+                    <a href="{% url 'contact:contact' %}" class="btn btn-outline-light btn-lg">
+                        <i class="fas fa-envelope me-2"></i>İletişim
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-7 mt-3 mt-lg-0" data-aos="fade-left" data-aos-duration="800">
+                <div class="card border-0 shadow-lg rounded-3 overflow-hidden">
+                    <img src="/static/img/lady-justice.png" alt="Adalet Heykeli - CESA Hukuk Bürosu" class="img-fluid w-100">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Neden Biz -->
+<section class="py-4 py-md-5 bg-light-gray">
+    <div class="container py-3 py-md-5">
+        <div class="text-center mb-4 mb-md-5" data-aos="fade-up" data-aos-duration="800">
+            <h2 class="fw-bold mb-2 mb-md-3">Neden CESA Hukuk Bürosu?</h2>
+            <p class="lead text-muted mb-0 mx-auto" style="max-width: 700px;">Müvekkillerimize en iyi hukuki hizmeti sunmak için çalışıyoruz</p>
+        </div>
+        <div class="row g-3 g-md-4">
+            <div class="col-sm-6 col-md-4 mb-3 mb-md-0" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
+                <div class="card h-100 border-0 feature-card">
+                    <div class="card-body p-3 p-md-4 text-center">
+                        <div class="feature-icon mx-auto">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                        <h4 class="card-title h5 h4-md">Uzman Kadro</h4>
+                        <p class="card-text text-muted">Alanında uzmanlaşmış avukat kadromuzla her türlü hukuki sorununuzda yanınızdayız.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-4 mb-3 mb-md-0" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
+                <div class="card h-100 border-0 feature-card">
+                    <div class="card-body p-3 p-md-4 text-center">
+                        <div class="feature-icon mx-auto">
+                            <i class="fas fa-handshake"></i>
+                        </div>
+                        <h4 class="card-title h5 h4-md">Güvenilirlik</h4>
+                        <p class="card-text text-muted">Müvekkillerimizle kurduğumuz güven ilişkisi, başarımızın en önemli anahtarıdır.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-4" data-aos="fade-up" data-aos-duration="800" data-aos-delay="300">
+                <div class="card h-100 border-0 feature-card">
+                    <div class="card-body p-3 p-md-4 text-center">
+                        <div class="feature-icon mx-auto">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h4 class="card-title h5 h4-md">Başarı Odaklılık</h4>
+                        <p class="card-text text-muted">Her davada en iyi sonucu almak için titizlikle çalışıyor ve stratejik yaklaşımlar geliştiriyoruz.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Hizmet Alanları -->
+<section class="py-4 py-md-5">
+    <div class="container py-3 py-md-5">
+        <div class="text-center mb-4 mb-md-5" data-aos="fade-up" data-aos-duration="800">
+            <h2 class="fw-bold mb-2 mb-md-3">Hizmet Alanlarımız</h2>
+            <p class="lead text-muted mb-0 mx-auto" style="max-width: 700px;">Müvekkillerimize sunduğumuz kapsamlı hukuki hizmetler</p>
+        </div>
+        <div class="row g-3 g-md-4">
+            <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body p-3 p-md-4 text-center">
+                        <i class="fas fa-gavel fa-2x fa-md-3x text-secondary mb-3 mb-md-4"></i>
+                        <h4 class="card-title h5 h4-md">Miras Hukuku</h4>
+                        <p class="card-text text-muted">Miras hukuku alanında uzman kadromuzla müvekkillerimize kapsamlı hukuki destek sağlıyoruz.</p>
+                        <a href="#" class="btn btn-outline-primary btn-sm btn-md-md mt-2 mt-md-3">
+                            <i class="fas fa-arrow-right me-2"></i>Detaylı Bilgi
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body p-3 p-md-4 text-center">
+                        <i class="fas fa-balance-scale fa-2x fa-md-3x text-secondary mb-3 mb-md-4"></i>
+                        <h4 class="card-title h5 h4-md">Ceza Hukuku</h4>
+                        <p class="card-text text-muted">Ceza hukuku alanında deneyimli avukatlarımızla müvekkillerimizin yanındayız.</p>
+                        <a href="#" class="btn btn-outline-primary btn-sm btn-md-md mt-2 mt-md-3">
+                            <i class="fas fa-arrow-right me-2"></i>Detaylı Bilgi
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-duration="800" data-aos-delay="300">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body p-3 p-md-4 text-center">
+                        <i class="fas fa-briefcase fa-2x fa-md-3x text-secondary mb-3 mb-md-4"></i>
+                        <h4 class="card-title h5 h4-md">İş Hukuku</h4>
+                        <p class="card-text text-muted">İş ve sosyal güvenlik hukuku alanında işçi ve işveren müvekkillerimize hizmet veriyoruz.</p>
+                        <a href="#" class="btn btn-outline-primary btn-sm btn-md-md mt-2 mt-md-3">
+                            <i class="fas fa-arrow-right me-2"></i>Detaylı Bilgi
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body p-3 p-md-4 text-center">
+                        <i class="fas fa-building fa-2x fa-md-3x text-secondary mb-3 mb-md-4"></i>
+                        <h4 class="card-title h5 h4-md">Gayrimenkul ve İnşaat Hukuku</h4>
+                        <p class="card-text text-muted">Gayrimenkul alım-satım, kira ve inşaat projelerinde hukuki danışmanlık hizmeti sunuyoruz.</p>
+                        <a href="#" class="btn btn-outline-primary btn-sm btn-md-md mt-2 mt-md-3">
+                            <i class="fas fa-arrow-right me-2"></i>Detaylı Bilgi
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body p-3 p-md-4 text-center">
+                        <i class="fas fa-globe fa-2x fa-md-3x text-secondary mb-3 mb-md-4"></i>
+                        <h4 class="card-title h5 h4-md">Yabancılar Hukuku</h4>
+                        <p class="card-text text-muted">Oturma izni, çalışma izni ve vatandaşlık başvurularında hukuki destek veriyoruz.</p>
+                        <a href="#" class="btn btn-outline-primary btn-sm btn-md-md mt-2 mt-md-3">
+                            <i class="fas fa-arrow-right me-2"></i>Detaylı Bilgi
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-duration="800" data-aos-delay="300">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body p-3 p-md-4 text-center">
+                        <i class="fas fa-chart-pie fa-2x fa-md-3x text-secondary mb-3 mb-md-4"></i>
+                        <h4 class="card-title h5 h4-md">Ticaret Hukuku</h4>
+                        <p class="card-text text-muted">Şirket kurulumu, birleşme ve devralmalar konusunda hukuki danışmanlık hizmeti veriyoruz.</p>
+                        <a href="#" class="btn btn-outline-primary btn-sm btn-md-md mt-2 mt-md-3">
+                            <i class="fas fa-arrow-right me-2"></i>Detaylı Bilgi
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body p-3 p-md-4 text-center">
+                        <i class="fas fa-file-invoice-dollar fa-2x fa-md-3x text-secondary mb-3 mb-md-4"></i>
+                        <h4 class="card-title h5 h4-md">Vergi Hukuku</h4>
+                        <p class="card-text text-muted">Vergi uyuşmazlıkları ve vergi planlaması konularında uzman kadromuzla yanınızdayız.</p>
+                        <a href="#" class="btn btn-outline-primary btn-sm btn-md-md mt-2 mt-md-3">
+                            <i class="fas fa-arrow-right me-2"></i>Detaylı Bilgi
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body p-3 p-md-4 text-center">
+                        <i class="fas fa-users fa-2x fa-md-3x text-secondary mb-3 mb-md-4"></i>
+                        <h4 class="card-title h5 h4-md">Aile Hukuku</h4>
+                        <p class="card-text text-muted">Boşanma, nafaka, velayet ve mal paylaşımı davalarında hukuki destek sağlıyoruz.</p>
+                        <a href="#" class="btn btn-outline-primary btn-sm btn-md-md mt-2 mt-md-3">
+                            <i class="fas fa-arrow-right me-2"></i>Detaylı Bilgi
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-duration="800" data-aos-delay="300">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body p-3 p-md-4 text-center">
+                        <i class="fas fa-shield-alt fa-2x fa-md-3x text-secondary mb-3 mb-md-4"></i>
+                        <h4 class="card-title h5 h4-md">Sigorta Hukuku</h4>
+                        <p class="card-text text-muted">Sigorta tazminat talepleri ve uyuşmazlıklarında hukuki danışmanlık hizmeti veriyoruz.</p>
+                        <a href="#" class="btn btn-outline-primary btn-sm btn-md-md mt-2 mt-md-3">
+                            <i class="fas fa-arrow-right me-2"></i>Detaylı Bilgi
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- İletişim CTA -->
+<section class="py-4 py-md-5 bg-primary text-white">
+    <div class="container py-3 py-md-5 text-center">
+        <div class="row justify-content-center">
+            <div class="col-lg-8" data-aos="fade-up" data-aos-duration="800">
+                <h2 class="fw-bold mb-3 mb-md-4">Hukuki Danışmanlık Hizmetlerimiz</h2>
+                <p class="lead mb-4 mb-md-5 px-2">Alanında uzman avukatlarımızla hukuki ihtiyaçlarınıza profesyonel çözümler sunuyoruz.</p>
+                <a href="{% url 'contact:contact' %}" class="btn btn-secondary btn-md-lg">
+                    <i class="fas fa-phone me-2"></i>İletişime Geçin
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %} 

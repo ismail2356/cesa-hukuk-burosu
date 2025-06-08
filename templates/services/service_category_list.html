@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Hizmet Alanlarımız - CESA Hukuk Bürosu{% endblock %}
+
+{% block meta_description %}CESA Hukuk Bürosu'nun sunduğu tüm hukuki hizmet alanları. Alanında uzman avukat kadromuzla müvekkillerimize kapsamlı hukuki danışmanlık ve temsil hizmeti sunmaktayız.{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'core:home' %}">Ana Sayfa</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Hizmet Alanlarımız</li>
+        </ol>
+    </nav>
+    
+    <div class="row mb-5">
+        <div class="col-12">
+            <h1 class="text-center mb-4">Hizmet Alanlarımız</h1>
+            <div class="text-center mb-4">
+                <div class="divider-custom">
+                    <div class="divider-custom-line"></div>
+                    <div class="divider-custom-icon"><i class="fas fa-gavel"></i></div>
+                    <div class="divider-custom-line"></div>
+                </div>
+            </div>
+            <div class="text-center mb-5">
+                <p class="lead">CESA Hukuk Bürosu olarak, aşağıdaki alanlarda uzman kadromuzla müvekkillerimize kapsamlı hukuki danışmanlık ve temsil hizmeti sunmaktayız.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        {% for category in categories %}
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card h-100 shadow">
+                <div class="card-body p-4">
+                    <div class="text-center mb-4">
+                        <div class="rounded-circle bg-primary text-white d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
+                            {% if category.icon %}
+                            <i class="fas {{ category.icon }} fa-2x"></i>
+                            {% else %}
+                            <i class="fas fa-balance-scale fa-2x"></i>
+                            {% endif %}
+                        </div>
+                        <h3 class="card-title h4">{{ category.name }}</h3>
+                    </div>
+                    
+                    {% if category.description %}
+                    <p class="card-text">{{ category.description|truncatewords:25 }}</p>
+                    {% endif %}
+                    
+                    {% if category.active_services %}
+                    <div class="mt-4">
+                        <h4 class="h5 border-bottom pb-2 mb-3">Sunduğumuz Hizmetler</h4>
+                        <ul class="list-unstyled">
+                            {% for service in category.active_services|slice:":4" %}
+                            <li class="mb-2 d-flex align-items-center">
+                                <i class="fas fa-check-circle text-success me-2"></i>
+                                <a href="{% url 'services:service_detail' service.slug %}" class="text-decoration-none">{{ service.title }}</a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        {% if category.active_services.count > 4 %}
+                        <div class="text-center mt-3">
+                            <span class="text-muted small">+{{ category.active_services.count|add:"-4" }} daha fazla hizmet</span>
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="card-footer bg-white border-0 text-center p-3">
+                    <a href="{% url 'services:service_category_detail' category.slug %}" class="btn btn-primary">
+                        <i class="fas fa-info-circle me-2"></i>Detaylı Bilgi
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="alert alert-info text-center py-5">
+                <i class="fas fa-info-circle fa-3x mb-3"></i>
+                <p class="mb-0">Henüz hizmet kategorisi eklenmemiştir.</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    
+    <!-- İletişim CTA -->
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="card bg-primary text-white shadow">
+                <div class="card-body p-4">
+                    <div class="row align-items-center">
+                        <div class="col-lg-8 mb-3 mb-lg-0">
+                            <h3 class="mb-2">Hukuki Danışmanlık İçin</h3>
+                            <p class="mb-0">Hizmet alanlarımız hakkında detaylı bilgi almak için bizimle iletişime geçebilirsiniz.</p>
+                        </div>
+                        <div class="col-lg-4 text-lg-end">
+                            <a href="{% url 'contact:contact' %}" class="btn btn-light btn-lg">
+                                <i class="fas fa-envelope me-2"></i>İletişime Geçin
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .divider-custom {
+        margin: 1.25rem 0 1.5rem;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .divider-custom-line {
+        width: 100%;
+        max-width: 7rem;
+        height: 0.25rem;
+        background-color: #0d6efd;
+        border-radius: 1rem;
+        border-color: #0d6efd;
+    }
+    
+    .divider-custom-icon {
+        color: #0d6efd;
+        font-size: 1.5rem;
+        margin: 0 1rem;
+    }
+</style>
+{% endblock %} 

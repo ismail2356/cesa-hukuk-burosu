@@ -1,0 +1,58 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center" href="{% url 'core:home' %}">
+            <!-- Logo eklenebilir -->
+            <span class="fw-bold">CESA <span>Hukuk Bürosu</span></span>
+        </a>
+        <div class="d-flex align-items-center">
+            <!-- Mobil Hızlı Arama Butonu -->
+            <a href="tel:05325587998" class="btn btn-sm btn-outline-primary me-3 d-lg-none">
+                <i class="fas fa-phone-alt"></i>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="{% url 'core:home' %}">
+                        <i class="fas fa-home me-1"></i> Ana Sayfa
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if '/hakkimizda/' in request.path %}active{% endif %}" href="{% url 'core:page_detail' slug='hakkimizda' %}">
+                        <i class="fas fa-info-circle me-1"></i> Hakkımızda
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if '/avukatlar/' in request.path %}active{% endif %}" href="{% url 'lawyers:lawyer_list' %}">
+                        <i class="fas fa-user-tie me-1"></i> Avukatlar
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if '/hizmetler/' in request.path %}active{% endif %}" href="{% url 'services:service_category_list' %}">
+                        <i class="fas fa-balance-scale me-1"></i> Hizmet Alanları
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if '/makaleler/' in request.path %}active{% endif %}" href="{% url 'blog:article_list' %}">
+                        <i class="fas fa-newspaper me-1"></i> Makaleler
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if '/iletisim/' in request.path %}active{% endif %}" href="{% url 'contact:contact' %}">
+                        <i class="fas fa-envelope me-1"></i> İletişim
+                    </a>
+                </li>
+                <!-- Sadece mobil menüde görünen iletişim butonu -->
+                <li class="nav-item d-lg-none">
+                    <a class="nav-link btn btn-primary text-white mt-3" href="tel:05325587998">
+                        <i class="fas fa-phone-alt me-2"></i> 0532 558 7998
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav> 

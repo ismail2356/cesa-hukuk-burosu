@@ -1,0 +1,65 @@
+<div class="bg-dark text-white pt-5 pb-4">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="100">
+                <h5 class="mb-4">CESA Hukuk Bürosu</h5>
+                <p>Hukukun evrensel ilkelerine bağlı kalarak, teknolojik gelişmeleri ve toplumsal dönüşümleri sürekli takip ediyor; her dosyamızda yüksek sorumluluk bilinciyle hareket ediyoruz.</p>
+            </div>
+            <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="200">
+                <h5 class="mb-4">İletişim</h5>
+                <address class="mb-0">
+                    <p class="d-flex align-items-start mb-3">
+                        <i class="fas fa-map-marker-alt me-3 text-secondary mt-1"></i> 
+                        <span>Gürsel Mah. Bahçeler Cad. No:20 K:1 D:1<br>Kağıthane / İstanbul</span>
+                    </p>
+                    <p class="d-flex align-items-center mb-3">
+                        <i class="fas fa-phone me-3 text-secondary"></i> 
+                        <span>0532 558 7998</span>
+                    </p>
+                    <p class="d-flex align-items-center mb-3">
+                        <i class="fas fa-envelope me-3 text-secondary"></i> 
+                        <span>info@cesahukuk.com</span>
+                    </p>
+                    <p class="d-flex align-items-center mb-3">
+                        <i class="fas fa-clock me-3 text-secondary"></i> 
+                        <span>Pazartesi - Cuma: 09:00 - 18:00</span>
+                    </p>
+                </address>
+            </div>
+            <div class="col-lg-4 col-md-12 mb-4" data-aos="fade-up" data-aos-delay="300">
+                <h5 class="mb-4">Hızlı Bağlantılar</h5>
+                <div class="row">
+                    <div class="col-6">
+                        <ul class="list-unstyled">
+                            <li class="mb-3"><a href="{% url 'core:home' %}" class="d-flex align-items-center"><i class="fas fa-chevron-right me-2 small text-secondary"></i><span>Ana Sayfa</span></a></li>
+                            <li class="mb-3"><a href="{% url 'core:page_detail' slug='hakkimizda' %}" class="d-flex align-items-center"><i class="fas fa-chevron-right me-2 small text-secondary"></i><span>Hakkımızda</span></a></li>
+                            <li class="mb-3"><a href="{% url 'lawyers:lawyer_list' %}" class="d-flex align-items-center"><i class="fas fa-chevron-right me-2 small text-secondary"></i><span>Avukatlar</span></a></li>
+                        </ul>
+                    </div>
+                    <div class="col-6">
+                        <ul class="list-unstyled">
+                            <li class="mb-3"><a href="{% url 'services:service_category_list' %}" class="d-flex align-items-center"><i class="fas fa-chevron-right me-2 small text-secondary"></i><span>Hizmetler</span></a></li>
+                            <li class="mb-3"><a href="{% url 'blog:article_list' %}" class="d-flex align-items-center"><i class="fas fa-chevron-right me-2 small text-secondary"></i><span>Makaleler</span></a></li>
+                            <li class="mb-3"><a href="{% url 'contact:contact' %}" class="d-flex align-items-center"><i class="fas fa-chevron-right me-2 small text-secondary"></i><span>İletişim</span></a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <a href="{% url 'contact:contact' %}" class="btn btn-secondary">
+                        <i class="fas fa-envelope me-2"></i> İletişime Geçin
+                    </a>
+                </div>
+            </div>
+        </div>
+        <hr class="my-4 bg-secondary opacity-25">
+        <div class="row align-items-center">
+            <div class="col-md-6 small">
+                <p class="mb-md-0">&copy; {% now "Y" %} CESA Hukuk Bürosu. Tüm hakları saklıdır.</p>
+            </div>
+            <div class="col-md-6 text-md-end small">
+                <a href="#" class="text-white text-decoration-none me-3">Gizlilik Politikası</a>
+                <a href="#" class="text-white text-decoration-none">Kullanım Koşulları</a>
+            </div>
+        </div>
+    </div>
+</div> 
