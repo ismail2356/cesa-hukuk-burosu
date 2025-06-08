@@ -6,7 +6,7 @@ from apps.lawyers.models import Lawyer
 
 class HomeView(TemplateView):
     """Ana sayfa görünümü"""
-    template_name = "pages/home.html"
+    template_name = "pages/home_simple.html"  # Geçici olarak basit template
 
 
 class PageDetailView(DetailView):
