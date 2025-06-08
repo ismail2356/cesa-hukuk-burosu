@@ -1,203 +1,162 @@
 {% extends 'base.html' %}
 
-{% block title %}Makaleler - CESA Hukuk Bürosu{% endblock %}
+{% block title %}Blog - CESA Hukuk Bürosu{% endblock %}
 
 {% block content %}
-<div class="container py-5">
-    <div class="row mb-4">
-        <div class="col-12">
-            <h1 class="text-center mb-4">Makaleler</h1>
-            <div class="text-center mb-5">
-                <p class="lead">CESA Hukuk Bürosu olarak, hukuki konularda bilgilendirici makaleler sunuyoruz.</p>
-            </div>
-        </div>
+<!-- Breadcrumb Başlangıç -->
+<div class="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
+    <div class="container py-5">
+        <h1 class="display-3 text-white animated slideInRight">Blog</h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb animated slideInRight mb-0">
+                <li class="breadcrumb-item"><a href="{% url 'core:home' %}">Ana Sayfa</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Blog</li>
+            </ol>
+        </nav>
     </div>
+</div>
+<!-- Breadcrumb Bitiş -->
 
-    <!-- Arama Formu -->
-    <div class="row mb-4">
-        <div class="col-lg-8 mx-auto">
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <form action="{% url 'blog:search_article_list' %}" method="get" class="d-flex">
-                        <input type="text" name="q" class="form-control me-2" placeholder="Makalelerde ara..." value="{{ request.GET.q|default:'' }}">
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </form>
-                </div>
-            </div>
+<!-- Blog Başlangıç -->
+<div class="container-fluid py-5">
+    <div class="container">
+        <!-- Öne Çıkan Makaleler -->
+        {% if featured_articles %}
+        <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
+            <h2 class="display-5 mb-4">Öne Çıkan Makaleler</h2>
+            <p class="mb-4">Hukuk alanındaki en güncel gelişmeler ve uzman görüşlerimiz</p>
         </div>
-    </div>
-
-    <div class="row">
-        <!-- Ana İçerik -->
-        <div class="col-lg-8">
-            <!-- Öne Çıkan Makaleler (Sadece ilk sayfada göster) -->
-            {% if page_obj.number == 1 and featured_articles %}
-            <div class="mb-4">
-                <h2 class="h4 mb-3">Öne Çıkan Makaleler</h2>
-                <div class="row">
-                    {% for article in featured_articles %}
-                    <div class="col-md-6 mb-4">
-                        <div class="card h-100 shadow-sm">
-                            {% if article.image %}
-                            <img src="{{ article.image.url }}" class="card-img-top" alt="{{ article.title }}">
-                            {% endif %}
-                            <div class="card-body">
-                                <h3 class="card-title h5">{{ article.title }}</h3>
-                                <p class="card-text small text-muted">
-                                    <i class="fas fa-user-circle me-1"></i> {{ article.author.get_full_name|default:article.author.username }}
-                                    <span class="mx-1">|</span>
-                                    <i class="fas fa-calendar-alt me-1"></i> {{ article.published_at|date:"d.m.Y" }}
-                                </p>
-                                {% if article.summary %}
-                                <p class="card-text">{{ article.summary|truncatewords:20 }}</p>
-                                {% endif %}
-                                <a href="{% url 'blog:article_detail' article.slug %}" class="btn btn-sm btn-outline-primary">Devamını Oku</a>
-                            </div>
-                        </div>
-                    </div>
-                    {% endfor %}
-                </div>
-                <hr class="my-4">
-            </div>
-            {% endif %}
-
-            <!-- Tüm Makaleler -->
-            <h2 class="h4 mb-3">Tüm Makaleler</h2>
-            {% for article in articles %}
-            <div class="card mb-4 shadow-sm">
-                <div class="row g-0">
+        
+        <div class="row g-4 mb-5">
+            {% for article in featured_articles %}
+            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.{{ forloop.counter }}s">
+                <div class="service-item position-relative h-100">
                     {% if article.image %}
-                    <div class="col-md-4">
-                        <img src="{{ article.image.url }}" class="img-fluid rounded-start h-100 object-fit-cover" alt="{{ article.title }}">
-                    </div>
+                        <img src="{{ article.image.url }}" class="img-fluid w-100" style="height: 250px; object-fit: cover;" alt="{{ article.title }}">
+                    {% else %}
+                        <div class="bg-light d-flex align-items-center justify-content-center" style="height: 250px;">
+                            <i class="fas fa-newspaper fa-3x text-primary"></i>
+                        </div>
                     {% endif %}
-                    <div class="{% if article.image %}col-md-8{% else %}col-12{% endif %}">
-                        <div class="card-body">
-                            <h3 class="card-title h5">{{ article.title }}</h3>
-                            <p class="card-text small text-muted">
-                                <i class="fas fa-user-circle me-1"></i> {{ article.author.get_full_name|default:article.author.username }}
-                                <span class="mx-1">|</span>
-                                <i class="fas fa-calendar-alt me-1"></i> {{ article.published_at|date:"d.m.Y" }}
-                                <span class="mx-1">|</span>
-                                <i class="fas fa-folder me-1"></i> <a href="{% url 'blog:category_article_list' article.category.slug %}" class="text-decoration-none">{{ article.category.name }}</a>
-                            </p>
-                            {% if article.summary %}
-                            <p class="card-text">{{ article.summary|truncatewords:30 }}</p>
-                            {% endif %}
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <a href="{% url 'blog:article_detail' article.slug %}" class="btn btn-sm btn-outline-primary">Devamını Oku</a>
-                                </div>
-                                <div class="small text-muted">
-                                    <i class="fas fa-eye me-1"></i> {{ article.view_count }} görüntülenme
-                                </div>
-                            </div>
-                            {% if article.tags.all %}
-                            <div class="mt-2">
-                                {% for tag in article.tags.all %}
-                                <a href="{% url 'blog:tag_article_list' tag.slug %}" class="badge bg-light text-dark text-decoration-none me-1">
-                                    <i class="fas fa-tag me-1 small"></i>{{ tag.name }}
-                                </a>
-                                {% endfor %}
-                            </div>
-                            {% endif %}
+                    <div class="service-text bg-light text-center p-4">
+                        <h5 class="mb-3">{{ article.title|truncatechars:50 }}</h5>
+                        <p class="mb-4">{{ article.summary|truncatechars:100|default:"Bu makale hakkında detaylı bilgi için okumaya devam edin." }}</p>
+                        <a href="{{ article.get_absolute_url }}" class="btn btn-primary">Devamını Oku <i class="fas fa-arrow-right ms-2"></i></a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- Tüm Makaleler -->
+        <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
+            <h2 class="display-5 mb-4">{% if selected_category %}{{ selected_category.name }}{% elif selected_tag %}{{ selected_tag.name }}{% else %}Tüm Makaleler{% endif %}</h2>
+        </div>
+
+        <!-- Arama ve Filtreler -->
+        <div class="row mb-4">
+            <div class="col-lg-8">
+                <form method="get" class="d-flex">
+                    <input type="text" name="q" class="form-control me-2" placeholder="Makale ara..." value="{{ search_query|default:'' }}">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </form>
+            </div>
+            <div class="col-lg-4">
+                <div class="dropdown">
+                    <button class="btn btn-outline-primary dropdown-toggle w-100" type="button" data-bs-toggle="dropdown">
+                        Kategoriler
+                    </button>
+                    <ul class="dropdown-menu w-100">
+                        <li><a class="dropdown-item" href="{% url 'blog:article_list' %}">Tüm Kategoriler</a></li>
+                        {% for category in categories %}
+                        <li><a class="dropdown-item" href="?category={{ category.slug }}">{{ category.name }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Makale Listesi -->
+        <div class="row g-4">
+            {% for article in page_obj %}
+            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.{{ forloop.counter }}s">
+                <div class="service-item position-relative h-100">
+                    {% if article.image %}
+                        <img src="{{ article.image.url }}" class="img-fluid w-100" style="height: 200px; object-fit: cover;" alt="{{ article.title }}">
+                    {% else %}
+                        <div class="bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                            <i class="fas fa-newspaper fa-2x text-primary"></i>
+                        </div>
+                    {% endif %}
+                    <div class="service-text bg-light text-center p-4">
+                        <div class="mb-2">
+                            <span class="badge bg-primary">{{ article.category.name }}</span>
+                            <small class="text-muted ms-2">{{ article.published_at|date:"d M Y" }}</small>
+                        </div>
+                        <h5 class="mb-3">{{ article.title|truncatechars:50 }}</h5>
+                        <p class="mb-4">{{ article.summary|truncatechars:120|default:"Bu makale hakkında detaylı bilgi için okumaya devam edin." }}</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <small class="text-muted">
+                                <i class="fas fa-eye me-1"></i>{{ article.view_count }} görüntülenme
+                            </small>
+                            <a href="{{ article.get_absolute_url }}" class="btn btn-primary btn-sm">Oku</a>
                         </div>
                     </div>
                 </div>
             </div>
             {% empty %}
-            <div class="alert alert-info">
-                Henüz makale bulunmamaktadır.
+            <div class="col-12 text-center py-5">
+                <div class="bg-light rounded p-5">
+                    <i class="fas fa-search fa-3x text-muted mb-3"></i>
+                    <h4 class="text-muted">Henüz makale bulunmuyor</h4>
+                    <p class="text-muted">{% if search_query %}Arama kriterlerinize uygun makale bulunamadı.{% else %}Bu kategoride henüz makale yayınlanmamış.{% endif %}</p>
+                </div>
             </div>
             {% endfor %}
-
-            <!-- Sayfalama -->
-            {% if is_paginated %}
-            <nav aria-label="Makale sayfaları">
-                <ul class="pagination justify-content-center">
-                    {% if page_obj.has_previous %}
-                    <li class="page-item">
-                        <a class="page-link" href="?page=1" aria-label="İlk">
-                            <span aria-hidden="true">&laquo;&laquo;</span>
-                        </a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Önceki">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
-                    </li>
-                    {% endif %}
-
-                    {% for num in page_obj.paginator.page_range %}
-                    {% if page_obj.number == num %}
-                    <li class="page-item active"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
-                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-                    <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
-                    {% endif %}
-                    {% endfor %}
-
-                    {% if page_obj.has_next %}
-                    <li class="page-item">
-                        <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Sonraki">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Son">
-                            <span aria-hidden="true">&raquo;&raquo;</span>
-                        </a>
-                    </li>
-                    {% endif %}
-                </ul>
-            </nav>
-            {% endif %}
         </div>
 
-        <!-- Yan Menü -->
-        <div class="col-lg-4">
-            <!-- Kategoriler -->
-            <div class="card mb-4 shadow-sm">
-                <div class="card-header bg-primary text-white">
-                    <h3 class="h5 mb-0">Kategoriler</h3>
-                </div>
-                <div class="card-body">
-                    <ul class="list-group list-group-flush">
-                        {% for category in categories %}
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <a href="{% url 'blog:category_article_list' category.slug %}" class="text-decoration-none">
-                                {{ category.name }}
-                            </a>
-                            <span class="badge bg-primary rounded-pill">
-                                {{ category.articles.count }}
-                            </span>
-                        </li>
-                        {% empty %}
-                        <li class="list-group-item">Henüz kategori bulunmamaktadır.</li>
+        <!-- Sayfalama -->
+        {% if page_obj.has_other_pages %}
+        <div class="row mt-5">
+            <div class="col-12">
+                <nav aria-label="Blog pagination">
+                    <ul class="pagination justify-content-center">
+                        {% if page_obj.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if search_query %}&q={{ search_query }}{% endif %}{% if selected_category %}&category={{ selected_category.slug }}{% endif %}">
+                                    <i class="fas fa-arrow-left"></i> Önceki
+                                </a>
+                            </li>
+                        {% endif %}
+                        
+                        {% for num in page_obj.paginator.page_range %}
+                            {% if page_obj.number == num %}
+                                <li class="page-item active">
+                                    <span class="page-link">{{ num }}</span>
+                                </li>
+                            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ num }}{% if search_query %}&q={{ search_query }}{% endif %}{% if selected_category %}&category={{ selected_category.slug }}{% endif %}">{{ num }}</a>
+                                </li>
+                            {% endif %}
                         {% endfor %}
+                        
+                        {% if page_obj.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if search_query %}&q={{ search_query }}{% endif %}{% if selected_category %}&category={{ selected_category.slug }}{% endif %}">
+                                    Sonraki <i class="fas fa-arrow-right"></i>
+                                </a>
+                            </li>
+                        {% endif %}
                     </ul>
-                </div>
-            </div>
-
-            <!-- Etiketler -->
-            <div class="card mb-4 shadow-sm">
-                <div class="card-header bg-primary text-white">
-                    <h3 class="h5 mb-0">Etiketler</h3>
-                </div>
-                <div class="card-body">
-                    <div class="d-flex flex-wrap gap-2">
-                        {% for tag in tags %}
-                        <a href="{% url 'blog:tag_article_list' tag.slug %}" class="badge bg-light text-dark text-decoration-none">
-                            <i class="fas fa-tag me-1 small"></i>{{ tag.name }}
-                        </a>
-                        {% empty %}
-                        <p class="mb-0">Henüz etiket bulunmamaktadır.</p>
-                        {% endfor %}
-                    </div>
-                </div>
+                </nav>
             </div>
         </div>
+        {% endif %}
     </div>
 </div>
+<!-- Blog Bitiş -->
 {% endblock %} 

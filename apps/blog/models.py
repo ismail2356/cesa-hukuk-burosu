@@ -2,7 +2,21 @@ from django.db import models
 from django.utils.text import slugify
 from django.contrib.auth.models import User
 from django.utils import timezone
-from tinymce.models import HTMLField
+from django.core.exceptions import ValidationError
+import os
+
+
+def validate_article_image_size(image):
+    """Makale resim boyutunu kontrol et (10MB limit)"""
+    if image.size > 10 * 1024 * 1024:  # 10MB
+        raise ValidationError('Resim boyutu 10MB\'dan küçük olmalıdır.')
+
+
+def article_image_upload(instance, filename):
+    """Makale resimleri için upload path"""
+    ext = filename.split('.')[-1].lower()
+    filename = f"{slugify(instance.title)}.{ext}"
+    return f'articles/{filename}'
 
 
 class Category(models.Model):
@@ -57,16 +71,23 @@ class Article(models.Model):
         ('published', 'Yayınlandı'),
     )
     
-    title = models.CharField('Başlık', max_length=200)
-    slug = models.SlugField('URL', max_length=220, unique=True, blank=True)
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='articles', verbose_name='Yazar')
+    title = models.CharField('Başlık', max_length=200, help_text='Makalenin başlığını yazın')
+    slug = models.SlugField('URL', max_length=220, unique=True, blank=True, help_text='Otomatik oluşturulur')
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='articles', verbose_name='Yazar', blank=True, null=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='articles', verbose_name='Kategori')
     tags = models.ManyToManyField(Tag, related_name='articles', verbose_name='Etiketler', blank=True)
-    image = models.ImageField('Kapak Görseli', upload_to='articles/', blank=True, null=True)
-    summary = models.TextField('Özet', blank=True, null=True)
-    content = HTMLField('İçerik')
+    image = models.ImageField(
+        'Kapak Görseli', 
+        upload_to=article_image_upload, 
+        blank=True, 
+        null=True,
+        validators=[validate_article_image_size],
+        help_text='JPG, PNG formatında, maksimum 10MB. Önerilen boyut: 1200x630px'
+    )
+    summary = models.TextField('Özet', max_length=300, blank=True, null=True, help_text='Makalenin kısa özeti (SEO için önemli)')
+    content = models.TextField('İçerik', help_text='Makalenin tam içeriği')
     status = models.CharField('Durum', max_length=10, choices=STATUS_CHOICES, default='draft')
-    featured = models.BooleanField('Öne Çıkan', default=False)
+    featured = models.BooleanField('Öne Çıkan', default=False, help_text='Ana sayfada öne çıkarılsın mı?')
     view_count = models.PositiveIntegerField('Görüntülenme Sayısı', default=0)
     created_at = models.DateTimeField('Oluşturulma Tarihi', auto_now_add=True)
     updated_at = models.DateTimeField('Güncellenme Tarihi', auto_now=True)
@@ -91,6 +112,9 @@ class Article(models.Model):
             self.published_at = None
             
         super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return f'/blog/makale/{self.slug}/'
 
 
 class Comment(models.Model):
