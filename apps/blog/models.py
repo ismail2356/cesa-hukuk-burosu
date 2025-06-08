@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.text import slugify
 from django.contrib.auth.models import User
 from django.utils import timezone
+from django.urls import reverse
 import uuid
 
 
@@ -109,7 +110,7 @@ class Article(models.Model):
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return f'/blog/makale/{self.slug}/'
+        return reverse('blog:article_detail', kwargs={'slug': self.slug})
 
 
 class Comment(models.Model):

@@ -8,7 +8,7 @@
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{% url 'core:home' %}">Ana Sayfa</a></li>
             <li class="breadcrumb-item"><a href="{% url 'blog:article_list' %}">Makaleler</a></li>
-            <li class="breadcrumb-item"><a href="{% url 'blog:category_article_list' article.category.slug %}">{{ article.category.name }}</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'blog:category_detail' article.category.slug %}">{{ article.category.name }}</a></li>
             <li class="breadcrumb-item active" aria-current="page">{{ article.title }}</li>
         </ol>
     </nav>
@@ -29,7 +29,7 @@
                         </div>
                         <div class="me-4">
                             <i class="fas fa-folder me-1"></i> 
-                            <a href="{% url 'blog:category_article_list' article.category.slug %}" class="text-decoration-none">
+                            <a href="{% url 'blog:category_detail' article.category.slug %}" class="text-decoration-none">
                                 {{ article.category.name }}
                             </a>
                         </div>
@@ -65,7 +65,7 @@
                     <h5>Etiketler:</h5>
                     <div class="d-flex flex-wrap gap-2">
                         {% for tag in article.tags.all %}
-                        <a href="{% url 'blog:tag_article_list' tag.slug %}" class="badge bg-light text-dark text-decoration-none">
+                        <a href="{% url 'blog:tag_detail' tag.slug %}" class="badge bg-light text-dark text-decoration-none">
                             <i class="fas fa-tag me-1 small"></i>{{ tag.name }}
                         </a>
                         {% endfor %}
@@ -101,27 +101,7 @@
                             <h4 class="mb-0 h5">Yorum Yap</h4>
                         </div>
                         <div class="card-body">
-                            <form action="{% url 'blog:comment_create' article.slug %}" method="post">
-                                {% csrf_token %}
-                                <div class="mb-3">
-                                    <label for="name" class="form-label">Ad Soyad *</label>
-                                    <input type="text" class="form-control" id="name" name="name" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="email" class="form-label">E-posta *</label>
-                                    <input type="email" class="form-control" id="email" name="email" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="content" class="form-label">Yorumunuz *</label>
-                                    <textarea class="form-control" id="content" name="content" rows="4" required></textarea>
-                                </div>
-                                <div class="alert alert-warning small">
-                                    <i class="fas fa-info-circle me-2"></i> Yorumunuz onaylandıktan sonra yayınlanacaktır.
-                                </div>
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="fas fa-paper-plane me-2"></i> Yorum Gönder
-                                </button>
-                            </form>
+                            <p class="text-muted">Yorum özelliği yakında eklenecek.</p>
                         </div>
                     </div>
                 </div>
@@ -138,9 +118,8 @@
                 <div class="card-body">
                     <h4 class="card-title h6">{{ article.author.get_full_name|default:article.author.username }}</h4>
                     <p class="card-text small">
-                        {{ article.author.profile.bio|default:"Yazar hakkında bilgi bulunmamaktadır." }}
+                        Deneyimli hukuk uzmanı
                     </p>
-                    <a href="#" class="btn btn-sm btn-outline-primary">Yazarın Diğer Makaleleri</a>
                 </div>
             </div>
 
