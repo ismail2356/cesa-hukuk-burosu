@@ -29,11 +29,16 @@
     <meta name="yandex-verification" content="{{ site_settings.yandex_verification }}">
     {% endif %}
     
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" sizes="32x32" href="{% load static %}{% static 'img/logo.png' %}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{% load static %}{% static 'img/logo.png' %}">
-    <link rel="apple-touch-icon" sizes="180x180" href="{% load static %}{% static 'img/logo.png' %}">
-    <link rel="shortcut icon" href="{% load static %}{% static 'img/logo.png' %}">
+    <!-- Favicon - Gelişmiş Konfigürasyon -->
+    <link rel="icon" type="image/x-icon" href="{% load static %}{% static 'img/favicon.ico' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% load static %}{% static 'img/favicon-16x16.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% load static %}{% static 'img/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="48x48" href="{% load static %}{% static 'img/favicon-48x48.png' %}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% load static %}{% static 'img/apple-touch-icon.png' %}">
+    <link rel="shortcut icon" type="image/x-icon" href="{% load static %}{% static 'img/favicon.ico' %}">
+    
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="{% load static %}{% static 'img/site.webmanifest' %}">
     
     <!-- Open Graph / Facebook Meta -->
     <meta property="og:type" content="{% block og_type %}website{% endblock %}">
@@ -107,18 +112,34 @@
             color: var(--primary-color);
         }
         
-        .navbar-brand img {
-            height: 40px;
-            margin-right: 10px;
-            transition: var(--transition);
+        .navbar-logo {
+            height: 55px;
+            width: auto;
+            margin-right: 15px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            background: white;
+            padding: 5px;
         }
         
-        .navbar-brand:hover img {
+        .navbar-brand:hover .navbar-logo {
             transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
         
         .navbar-brand span {
             color: var(--secondary-color);
+        }
+        
+        .footer-logo {
+            height: 60px;
+            width: auto;
+            margin-right: 15px;
+            border-radius: 8px;
+            background: white;
+            padding: 5px;
+            box-shadow: 0 2px 8px rgba(255, 255, 255, 0.1);
         }
         
         .nav-link {
@@ -357,9 +378,10 @@
                 font-size: 1.5rem;
             }
             
-            .navbar-brand img {
-                height: 35px;
-                margin-right: 8px;
+            .navbar-logo {
+                height: 45px;
+                margin-right: 12px;
+                padding: 3px;
             }
             
             section {
