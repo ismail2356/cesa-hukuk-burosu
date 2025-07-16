@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+
+# Favicon
+Allow: /static/img/favicon.ico
+Allow: /static/img/favicon-16x16.png
+Allow: /static/img/favicon-32x32.png
+Allow: /static/img/android-chrome-192x192.png
+Allow: /static/img/android-chrome-512x512.png
+
+# Sitemap
+Sitemap: https://cesahukukdanismanlik.com/sitemap.xml 

@@ -30,15 +30,41 @@
     {% endif %}
     
     <!-- Favicon - Gelişmiş Konfigürasyon -->
+    <link rel="shortcut icon" type="image/x-icon" href="{% load static %}{% static 'img/favicon.ico' %}">
+    <link rel="icon" type="image/x-icon" href="{% load static %}{% static 'img/favicon.ico' %}">
     <link rel="icon" type="image/png" sizes="16x16" href="{% load static %}{% static 'img/favicon-16x16.png' %}">
     <link rel="icon" type="image/png" sizes="32x32" href="{% load static %}{% static 'img/favicon-32x32.png' %}">
     <link rel="icon" type="image/png" sizes="192x192" href="{% load static %}{% static 'img/android-chrome-192x192.png' %}">
     <link rel="icon" type="image/png" sizes="512x512" href="{% load static %}{% static 'img/android-chrome-512x512.png' %}">
     <link rel="apple-touch-icon" sizes="180x180" href="{% load static %}{% static 'img/apple-touch-icon.png' %}">
-    <link rel="shortcut icon" type="image/png" href="{% load static %}{% static 'img/favicon-32x32.png' %}">
     
     <!-- Web App Manifest -->
     <link rel="manifest" href="{% load static %}{% static 'img/site.webmanifest' %}">
+    
+    <!-- Structured Data for Google -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "CESA Hukuk Bürosu",
+        "url": "https://cesahukukdanismanlik.com",
+        "logo": "https://cesahukukdanismanlik.com{% load static %}{% static 'img/android-chrome-512x512.png' %}",
+        "image": "https://cesahukukdanismanlik.com{% load static %}{% static 'img/android-chrome-512x512.png' %}",
+        "description": "Alanında uzman avukat kadrosuyla müvekkillerine geniş kapsamlı hukuki danışmanlık hizmetleri sunan profesyonel bir hukuk bürosudur.",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Gürsel Mah. Bahçeler Cad. No:20 K:1 D:1",
+            "addressLocality": "Kağıthane",
+            "addressRegion": "İstanbul",
+            "addressCountry": "TR"
+        },
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+90-541-723-94-95",
+            "contactType": "customer service"
+        }
+    }
+    </script>
     
     <!-- Open Graph / Facebook Meta -->
     <meta property="og:type" content="{% block og_type %}website{% endblock %}">
