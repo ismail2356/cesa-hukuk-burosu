@@ -3,6 +3,7 @@ from django.utils.text import slugify
 from django.contrib.auth.models import User
 from django.utils import timezone
 from django.urls import reverse
+from ckeditor_uploader.fields import RichTextUploadingField
 import uuid
 
 
@@ -81,7 +82,7 @@ class Article(models.Model):
         help_text='JPG, PNG formatında'
     )
     summary = models.TextField('Özet', max_length=300, blank=True, null=True, help_text='Makalenin kısa özeti')
-    content = models.TextField('İçerik', help_text='Makalenin tam içeriği')
+    content = RichTextUploadingField('İçerik', help_text='Makalenin tam içeriği')
     status = models.CharField('Durum', max_length=10, choices=STATUS_CHOICES, default='draft')
     featured = models.BooleanField('Öne Çıkan', default=False, help_text='Ana sayfada öne çıkarılsın mı?')
     view_count = models.PositiveIntegerField('Görüntülenme Sayısı', default=0)
