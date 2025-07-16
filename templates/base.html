@@ -29,12 +29,18 @@
     <meta name="yandex-verification" content="{{ site_settings.yandex_verification }}">
     {% endif %}
     
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="{% load static %}{% static 'img/logo.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% load static %}{% static 'img/logo.png' %}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% load static %}{% static 'img/logo.png' %}">
+    <link rel="shortcut icon" href="{% load static %}{% static 'img/logo.png' %}">
+    
     <!-- Open Graph / Facebook Meta -->
     <meta property="og:type" content="{% block og_type %}website{% endblock %}">
     <meta property="og:url" content="{% block og_url %}https://cesahukukdanismanlik.com{{ request.path }}{% endblock %}">
     <meta property="og:title" content="{% block og_title %}{{ block.super }}{% endblock %}">
     <meta property="og:description" content="{% block og_description %}{{ block.super }}{% endblock %}">
-    <meta property="og:image" content="{% block og_image %}https://cesahukukdanismanlik.com/static/img/og-image.jpg{% endblock %}">
+    <meta property="og:image" content="{% block og_image %}https://cesahukukdanismanlik.com{% load static %}{% static 'img/logo.png' %}{% endblock %}">
     <meta property="og:locale" content="tr_TR">
     <meta property="og:site_name" content="CESA Hukuk Bürosu">
     
@@ -99,6 +105,16 @@
             font-weight: 700;
             font-size: 1.8rem;
             color: var(--primary-color);
+        }
+        
+        .navbar-brand img {
+            height: 40px;
+            margin-right: 10px;
+            transition: var(--transition);
+        }
+        
+        .navbar-brand:hover img {
+            transform: scale(1.05);
         }
         
         .navbar-brand span {
@@ -339,6 +355,11 @@
         @media (max-width: 767px) {
             .navbar-brand {
                 font-size: 1.5rem;
+            }
+            
+            .navbar-brand img {
+                height: 35px;
+                margin-right: 8px;
             }
             
             section {
